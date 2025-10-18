@@ -1,0 +1,8 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=5523ea35_002D3c3f_002D4057_002D984b_002Db569cfad7223/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="ChainedHandlersTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::C74EB7E5-15BD-4D77-B33C-3C08A0E29930::net9.0::Interactions.Tests.HandlersTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::C74EB7E5-15BD-4D77-B33C-3C08A0E29930::net9.0::Interactions.Tests.CommandsTests.ReversibleCommandTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::C74EB7E5-15BD-4D77-B33C-3C08A0E29930::net9.0::Interactions.Tests.ValidatorsTests.RangeTest&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

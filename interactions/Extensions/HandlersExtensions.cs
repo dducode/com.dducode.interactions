@@ -1,0 +1,43 @@
+using System.Diagnostics.Contracts;
+using Interactions.Handlers;
+
+namespace Interactions.Extensions;
+
+public static class HandlersExtensions {
+
+  [Pure]
+  public static AsyncHandler<TIn, TOut> ToAsyncHandler<TIn, TOut>(this Handler<TIn, TOut> handler) {
+    return new AsyncProxyHandler<TIn, TOut>(handler);
+  }
+
+  [Pure]
+  public static Handler<T1, T3> Next<T1, T2, T3>(this Handler<T1, T2> handler, Handler<T2, T3> nextHandler) {
+    return new ChainedHandler<T1, T2, T3>(handler, nextHandler);
+  }
+
+  [Pure]
+  public static AsyncHandler<T1, T3> Next<T1, T2, T3>(this Handler<T1, T2> handler, AsyncHandler<T2, T3> nextHandler) {
+    return new AsyncChainedHandler<T1, T2, T3>(handler.ToAsyncHandler(), nextHandler);
+  }
+
+  [Pure]
+  public static Handler<T1, T3> Next<T1, T2, T3>(this Handler<T1, T2> handler, Func<T2, T3> nextHandler) {
+    return handler.Next(Handler.FromMethod(nextHandler));
+  }
+
+  [Pure]
+  public static AsyncHandler<T1, T3> Next<T1, T2, T3>(this Handler<T1, T2> handler, Func<T2, CancellationToken, ValueTask<T3>> nextHandler) {
+    return handler.Next(Handler.FromMethod(nextHandler));
+  }
+
+  [Pure]
+  public static Handler<T1, T2> Do<T1, T2>(this Handler<T1, T2> handler, SideAction<T2> action) {
+    return handler.Next(new TransitiveHandler<T2>(action));
+  }
+
+  [Pure]
+  public static AsyncHandler<T1, T2> Do<T1, T2>(this Handler<T1, T2> handler, AsyncSideAction<T2> action) {
+    return handler.Next(new AsyncTransitiveHandler<T2>(action));
+  }
+
+}
