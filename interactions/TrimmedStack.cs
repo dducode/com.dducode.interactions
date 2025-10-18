@@ -1,3 +1,5 @@
+using Interactions.Extensions;
+
 namespace Interactions;
 
 public class TrimmedStack<T>(int maxStackSize = 256) {

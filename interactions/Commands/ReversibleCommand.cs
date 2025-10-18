@@ -1,3 +1,5 @@
+using Interactions.Extensions;
+
 namespace Interactions.Commands;
 
 public class ReversibleCommand<TIn>(Command<TIn> undoCommand, int maxStackSize = 256) : CancellableCommand<TIn>(undoCommand, maxStackSize) {

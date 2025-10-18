@@ -1,10 +1,25 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net9.0</TargetFramework>
+
+        <PackageId>com.dducode.interactions</PackageId>
+        <Version>1.0.1</Version>
+        <Authors>dducode</Authors>
+        <Company>dducode</Company>
+        <Product>interactions-package</Product>
+        <PackageTags>interactions;handlers</PackageTags>
+        <RepositoryUrl>https://github.com/dducode/com.dducode.interactions.git</RepositoryUrl>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>disable</Nullable>
         <RootNamespace>Interactions</RootNamespace>
+        <TargetFrameworks>net9.0;netstandard2.1;net48</TargetFrameworks>
+        <LangVersion>13.0</LangVersion>
     </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.6.3" />
+    </ItemGroup>
 
 </Project>

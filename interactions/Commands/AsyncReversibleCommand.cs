@@ -1,3 +1,5 @@
+using Interactions.Extensions;
+
 namespace Interactions.Commands;
 
 public class AsyncReversibleCommand<TIn>(AsyncCommand<TIn> undoCommand, int maxStackSize = 256)
