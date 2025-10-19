@@ -1,18 +1,11 @@
 namespace Interactions.Validation;
 
-internal sealed class AnyValidator<T> : Validator<IEnumerable<T>> {
+internal sealed class AnyValidator<T>(Validator<T> itemValidator) : Validator<IEnumerable<T>> {
 
-  private readonly Validator<T> _itemValidator;
-
-  internal AnyValidator(Validator<T> itemValidator) {
-    _itemValidator = itemValidator;
-    ErrorMessage = $"At least one element must satisfy: {_itemValidator.ErrorMessage}";
-  }
-
-  public override string ErrorMessage { get; }
+  public override string ErrorMessage { get; } = $"At least one element must satisfy: {itemValidator.ErrorMessage}";
 
   protected override bool IsValidCore(IEnumerable<T> value) {
-    return value.Any(_itemValidator.IsValid);
+    return value.Any(itemValidator.IsValid);
   }
 
 }

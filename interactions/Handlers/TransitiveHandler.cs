@@ -4,31 +4,19 @@ public delegate void SideAction<in T>(T input);
 
 public delegate ValueTask AsyncSideAction<in T>(T input, CancellationToken token = default);
 
-internal sealed class TransitiveHandler<T> : Handler<T, T> {
-
-  private readonly SideAction<T> _action;
-
-  internal TransitiveHandler(SideAction<T> action) {
-    _action = action;
-  }
+internal sealed class TransitiveHandler<T>(SideAction<T> action) : Handler<T, T> {
 
   protected override T HandleCore(T input) {
-    _action(input);
+    action(input);
     return input;
   }
 
 }
 
-internal sealed class AsyncTransitiveHandler<T> : AsyncHandler<T, T> {
-
-  private readonly AsyncSideAction<T> _action;
-
-  internal AsyncTransitiveHandler(AsyncSideAction<T> action) {
-    _action = action;
-  }
+internal sealed class AsyncTransitiveHandler<T>(AsyncSideAction<T> action) : AsyncHandler<T, T> {
 
   protected override async ValueTask<T> HandleCore(T input, CancellationToken token = default) {
-    await _action(input, token);
+    await action(input, token);
     return input;
   }
 

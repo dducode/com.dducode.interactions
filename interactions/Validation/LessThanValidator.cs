@@ -1,20 +1,13 @@
 namespace Interactions.Validation;
 
-internal sealed class LessThanValidator<T> : Validator<T> {
+internal sealed class LessThanValidator<T>(T value, IComparer<T> comparer = null) : Validator<T> {
 
-  private readonly T _value;
-  private readonly IComparer<T> _comparer;
+  private readonly IComparer<T> _comparer = comparer ?? Comparer<T>.Default;
 
-  internal LessThanValidator(T value, IComparer<T> comparer = null) {
-    _value = value;
-    _comparer = comparer ?? Comparer<T>.Default;
-    ErrorMessage = $"Value must be less than {_value}";
-  }
+  public override string ErrorMessage { get; } = $"Value must be less than {value}";
 
-  public override string ErrorMessage { get; }
-
-  protected override bool IsValidCore(T value) {
-    return _comparer.Compare(value, _value) < 0;
+  protected override bool IsValidCore(T value1) {
+    return _comparer.Compare(value1, value) < 0;
   }
 
 }

@@ -1,18 +1,11 @@
 namespace Interactions.Validation;
 
-internal sealed class OverrideMessageValidator<T> : Validator<T> {
+internal sealed class OverrideMessageValidator<T>(Validator<T> inner, string errorMessage) : Validator<T> {
 
-  private readonly Validator<T> _inner;
-
-  internal OverrideMessageValidator(Validator<T> inner, string errorMessage) {
-    _inner = inner;
-    ErrorMessage = errorMessage;
-  }
-
-  public override string ErrorMessage { get; }
+  public override string ErrorMessage { get; } = errorMessage;
 
   protected override bool IsValidCore(T value) {
-    return _inner.IsValid(value);
+    return inner.IsValid(value);
   }
 
 }

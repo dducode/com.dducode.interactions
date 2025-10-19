@@ -1,4 +1,5 @@
 using System.Diagnostics.Contracts;
+using Interactions.Analytics;
 using Interactions.Handlers;
 
 namespace Interactions.Extensions;
@@ -38,6 +39,11 @@ public static class AsyncHandlersExtensions {
   [Pure]
   public static AsyncHandler<T1, T2> Delay<T1, T2>(this AsyncHandler<T1, T2> handler, TimeSpan timeDelay) {
     return handler.Next(new DelayHandler<T2>(timeDelay));
+  }
+
+  [Pure]
+  public static AsyncHandler<T1, T2> Metrics<T1, T2>(this AsyncHandler<T1, T2> handler, IMetrics<T1, T2> metrics, string tag = null) {
+    return new AsyncMetricsHandler<T1, T2>(handler, metrics, tag);
   }
 
 }

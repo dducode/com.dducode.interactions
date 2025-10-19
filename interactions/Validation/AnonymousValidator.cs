@@ -1,18 +1,11 @@
 namespace Interactions.Validation;
 
-internal sealed class AnonymousValidator<T> : Validator<T> {
+internal sealed class AnonymousValidator<T>(Func<T, bool> validation, string errorMessage) : Validator<T> {
 
-  public override string ErrorMessage { get; }
-
-  private readonly Func<T, bool> _validation;
-
-  internal AnonymousValidator(Func<T, bool> validation, string errorMessage) {
-    _validation = validation;
-    ErrorMessage = errorMessage;
-  }
+  public override string ErrorMessage { get; } = errorMessage;
 
   protected override bool IsValidCore(T value) {
-    return _validation(value);
+    return validation(value);
   }
 
 }
