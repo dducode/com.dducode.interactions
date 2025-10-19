@@ -30,8 +30,12 @@ public abstract partial class AsyncHandler<T1, T2> {
   }
 
   [Pure]
-  public AsyncHandler<K1, K2> Transform<K1, K2>(Transformer<K1, T1> incoming,
-    Transformer<T2, K2> outgoing) {
+  public AsyncHandler<T1, T2> Retry<TException>(int maxAttempts, Func<int, TException, bool> shouldRetry = null) where TException : Exception {
+    return new RetryHandler<T1, T2, TException>(this, maxAttempts, shouldRetry);
+  }
+
+  [Pure]
+  public AsyncHandler<K1, K2> Transform<K1, K2>(Transformer<K1, T1> incoming, Transformer<T2, K2> outgoing) {
     return new AsyncTransformHandler<K1, T1, T2, K2>(incoming, this, outgoing);
   }
 
