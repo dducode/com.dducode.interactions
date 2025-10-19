@@ -30,8 +30,9 @@ public abstract partial class AsyncHandler<T1, T2> {
   }
 
   [Pure]
-  public AsyncHandler<T1, T2> Retry<TException>(int maxAttempts, Func<int, TException, bool> shouldRetry = null) where TException : Exception {
-    return new RetryHandler<T1, T2, TException>(this, maxAttempts, shouldRetry);
+  public AsyncHandler<T1, T2> Retry<TException>(
+    Func<int, TException, bool> shouldRetry, Func<int, TimeSpan> backoff = null) where TException : Exception {
+    return new RetryHandler<T1, T2, TException>(this, shouldRetry, backoff);
   }
 
   [Pure]
