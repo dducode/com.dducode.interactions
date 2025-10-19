@@ -2,12 +2,12 @@ using Interactions.Extensions;
 
 namespace Interactions.Commands;
 
-public class AsyncReversibleCommand<TIn>(AsyncCommand<TIn> undoCommand, int maxStackSize = 256)
-  : AsyncCancellableCommand<TIn>(undoCommand, maxStackSize) {
+public class AsyncReversibleCommand<T>(AsyncCommand<T> undoCommand, int maxStackSize = 256)
+  : AsyncCancellableCommand<T>(undoCommand, maxStackSize) {
 
-  private readonly Stack<TIn> _redoStack = new();
+  private readonly Stack<T> _redoStack = new();
 
-  public override async ValueTask<bool> Execute(TIn input, CancellationToken token = default) {
+  public override async ValueTask<bool> Execute(T input, CancellationToken token = default) {
     if (await base.Execute(input, token)) {
       _redoStack.Clear();
       return true;
@@ -17,7 +17,7 @@ public class AsyncReversibleCommand<TIn>(AsyncCommand<TIn> undoCommand, int maxS
   }
 
   public async ValueTask<bool> Redo(CancellationToken token = default) {
-    if (!_redoStack.TryPop(out TIn prevState))
+    if (!_redoStack.TryPop(out T prevState))
       return false;
 
     if (!await base.Execute(prevState, token)) {
@@ -28,8 +28,8 @@ public class AsyncReversibleCommand<TIn>(AsyncCommand<TIn> undoCommand, int maxS
     return true;
   }
 
-  protected override async ValueTask<Undo<TIn>> UndoCore(CancellationToken token = default) {
-    Undo<TIn> result = await base.UndoCore(token);
+  protected override async ValueTask<Undo<T>> UndoCore(CancellationToken token = default) {
+    Undo<T> result = await base.UndoCore(token);
     if (result.success)
       _redoStack.Push(result.value);
 

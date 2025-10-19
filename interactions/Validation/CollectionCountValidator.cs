@@ -3,7 +3,7 @@ using static Interactions.Validation.Validator;
 
 namespace Interactions.Validation;
 
-internal class CollectionCountValidator<T> : Validator<ICollection<T>> {
+internal sealed class CollectionCountValidator<T> : Validator<ICollection<T>> {
 
   internal static Validator<ICollection<T>> NotEmptyCollection { get; } = NotNull<ICollection<T>>().And(CollectionCount<T>(MoreThan(0)))
     .OverrideMessage($"Collection {typeof(ICollection<T>).Name} cannot be null or empty");

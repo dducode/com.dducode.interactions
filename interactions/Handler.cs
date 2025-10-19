@@ -2,13 +2,13 @@ using Interactions.Handlers;
 
 namespace Interactions;
 
-public abstract partial class Handler<TIn, TOut> : IDisposable {
+public abstract partial class Handler<T1, T2> : IDisposable {
 
-  internal TOut Handle(TIn input) {
+  internal T2 Handle(T1 input) {
     return HandleCore(input);
   }
 
-  protected abstract TOut HandleCore(TIn input);
+  protected abstract T2 HandleCore(T1 input);
 
   public void Dispose() {
     DisposeCore();
@@ -19,13 +19,13 @@ public abstract partial class Handler<TIn, TOut> : IDisposable {
 
 }
 
-public abstract partial class AsyncHandler<TIn, TOut> : IDisposable {
+public abstract partial class AsyncHandler<T1, T2> : IDisposable {
 
-  internal ValueTask<TOut> Handle(TIn input, CancellationToken token = default) {
+  internal ValueTask<T2> Handle(T1 input, CancellationToken token = default) {
     return HandleCore(input, token);
   }
 
-  protected abstract ValueTask<TOut> HandleCore(TIn input, CancellationToken token = default);
+  protected abstract ValueTask<T2> HandleCore(T1 input, CancellationToken token = default);
 
   public void Dispose() {
     DisposeCore();
@@ -82,14 +82,14 @@ public static class Handler {
     });
   }
 
-  public static Handler<TIn, bool> FromCommandMethod<TIn>(Action<TIn> action) {
+  public static Handler<TIn, bool> AlwaysTrue<TIn>(Action<TIn> action) {
     return new AnonymousHandler<TIn, bool>(input => {
       action(input);
       return true;
     });
   }
 
-  public static Handler<Unit, bool> FromCommandMethod(Action action) {
+  public static Handler<Unit, bool> AlwaysTrue(Action action) {
     return new AnonymousHandler<Unit, bool>(_ => {
       action();
       return true;

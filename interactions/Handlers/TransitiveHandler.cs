@@ -1,33 +1,33 @@
 namespace Interactions.Handlers;
 
-public delegate void SideAction<in TIn>(TIn input);
+public delegate void SideAction<in T>(T input);
 
-public delegate ValueTask AsyncSideAction<in TIn>(TIn input, CancellationToken token = default);
+public delegate ValueTask AsyncSideAction<in T>(T input, CancellationToken token = default);
 
-internal sealed class TransitiveHandler<TIn> : Handler<TIn, TIn> {
+internal sealed class TransitiveHandler<T> : Handler<T, T> {
 
-  private readonly SideAction<TIn> _action;
+  private readonly SideAction<T> _action;
 
-  internal TransitiveHandler(SideAction<TIn> action) {
+  internal TransitiveHandler(SideAction<T> action) {
     _action = action;
   }
 
-  protected override TIn HandleCore(TIn input) {
+  protected override T HandleCore(T input) {
     _action(input);
     return input;
   }
 
 }
 
-internal sealed class AsyncTransitiveHandler<TIn> : AsyncHandler<TIn, TIn> {
+internal sealed class AsyncTransitiveHandler<T> : AsyncHandler<T, T> {
 
-  private readonly AsyncSideAction<TIn> _action;
+  private readonly AsyncSideAction<T> _action;
 
-  internal AsyncTransitiveHandler(AsyncSideAction<TIn> action) {
+  internal AsyncTransitiveHandler(AsyncSideAction<T> action) {
     _action = action;
   }
 
-  protected override async ValueTask<TIn> HandleCore(TIn input, CancellationToken token = default) {
+  protected override async ValueTask<T> HandleCore(T input, CancellationToken token = default) {
     await _action(input, token);
     return input;
   }

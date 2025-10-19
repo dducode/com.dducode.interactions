@@ -2,11 +2,11 @@ using Interactions.Extensions;
 
 namespace Interactions.Commands;
 
-public class ReversibleCommand<TIn>(Command<TIn> undoCommand, int maxStackSize = 256) : CancellableCommand<TIn>(undoCommand, maxStackSize) {
+public class ReversibleCommand<T>(Command<T> undoCommand, int maxStackSize = 256) : CancellableCommand<T>(undoCommand, maxStackSize) {
 
-  private readonly Stack<TIn> _redoStack = new();
+  private readonly Stack<T> _redoStack = new();
 
-  public override bool Execute(TIn input) {
+  public override bool Execute(T input) {
     if (base.Execute(input)) {
       _redoStack.Clear();
       return true;
@@ -16,7 +16,7 @@ public class ReversibleCommand<TIn>(Command<TIn> undoCommand, int maxStackSize =
   }
 
   public bool Redo() {
-    if (!_redoStack.TryPop(out TIn state))
+    if (!_redoStack.TryPop(out T state))
       return false;
 
     if (!base.Execute(state)) {
@@ -27,7 +27,7 @@ public class ReversibleCommand<TIn>(Command<TIn> undoCommand, int maxStackSize =
     return true;
   }
 
-  protected override bool UndoCore(out TIn state) {
+  protected override bool UndoCore(out T state) {
     if (base.UndoCore(out state)) {
       _redoStack.Push(state);
       return true;

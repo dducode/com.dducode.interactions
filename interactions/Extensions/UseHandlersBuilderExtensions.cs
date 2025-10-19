@@ -4,12 +4,11 @@ namespace Interactions.Extensions;
 
 public static class UseHandlersBuilderExtensions {
 
-  public static Handler<TIn, TOut> End<TIn, TOut>(this UseHandlersBuilder<TIn, TOut> builder, Func<TIn, TOut> action) {
+  public static Handler<T1, T2> End<T1, T2>(this UseHandlersBuilder<T1, T2> builder, Func<T1, T2> action) {
     return builder.End(Handler.FromMethod(action));
   }
 
-  public static AsyncHandler<TIn, TOut> End<TIn, TOut>(
-    this AsyncUseHandlersBuilder<TIn, TOut> builder, Func<TIn, CancellationToken, ValueTask<TOut>> action) {
+  public static AsyncHandler<T1, T2> End<T1, T2>(this AsyncUseHandlersBuilder<T1, T2> builder, Func<T1, CancellationToken, ValueTask<T2>> action) {
     return builder.End(Handler.FromMethod(action));
   }
 

@@ -1,15 +1,15 @@
 namespace Interactions.Commands;
 
-public class AsyncCancellableCommand<TIn>(AsyncCommand<TIn> undoCommand, int maxStackSize = 256) : AsyncCommand<TIn> {
+public class AsyncCancellableCommand<T>(AsyncCommand<T> undoCommand, int maxStackSize = 256) : AsyncCommand<T> {
 
   public int ClearedElements {
     get => _undoStack.ClearedElements;
     set => _undoStack.ClearedElements = value;
   }
 
-  private readonly TrimmedStack<TIn> _undoStack = new(maxStackSize);
+  private readonly TrimmedStack<T> _undoStack = new(maxStackSize);
 
-  public override async ValueTask<bool> Execute(TIn input, CancellationToken token = default) {
+  public override async ValueTask<bool> Execute(T input, CancellationToken token = default) {
     if (await base.Execute(input, token)) {
       _undoStack.Push(input);
       return true;
@@ -22,8 +22,8 @@ public class AsyncCancellableCommand<TIn>(AsyncCommand<TIn> undoCommand, int max
     return (await UndoCore(token)).success;
   }
 
-  protected virtual async ValueTask<Undo<TIn>> UndoCore(CancellationToken token = default) {
-    if (!_undoStack.TryPop(out TIn state))
+  protected virtual async ValueTask<Undo<T>> UndoCore(CancellationToken token = default) {
+    if (!_undoStack.TryPop(out T state))
       return default;
 
     if (!await undoCommand.Execute(state, token)) {

@@ -2,9 +2,9 @@ using Interactions.Extensions;
 
 namespace Interactions;
 
-public class TrimmedStack<T>(int maxStackSize = 256) {
+internal sealed class TrimmedStack<T>(int maxStackSize = 256) {
 
-  public int ClearedElements {
+  internal int ClearedElements {
     get => _clearedElements;
     set => _clearedElements = Math.Min(Math.Max(value, 1), maxStackSize);
   }
@@ -14,22 +14,18 @@ public class TrimmedStack<T>(int maxStackSize = 256) {
 
   private int _clearedElements = 128;
 
-  public void Push(T value) {
+  internal void Push(T value) {
     _main.Push(value);
 
     if (_main.Count >= maxStackSize)
       BottomTrimStack();
   }
 
-  public T Pop() {
-    return _main.Pop();
-  }
-
-  public bool TryPop(out T value) {
+  internal bool TryPop(out T value) {
     return _main.TryPop(out value);
   }
 
-  public void Clear() {
+  internal void Clear() {
     _main.Clear();
   }
 

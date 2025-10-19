@@ -4,22 +4,22 @@ namespace Interactions.Extensions;
 
 public static class ConditionalHandlersBuilderExtensions {
 
-  public static ConditionalHandlersBuilder<TIn, TOut> ElseIf<TIn, TOut>(
-    this ConditionalHandlersBuilder<TIn, TOut> builder, Func<bool> condition, Func<TIn, TOut> action) {
+  public static ConditionalHandlersBuilder<T1, T2> ElseIf<T1, T2>(
+    this ConditionalHandlersBuilder<T1, T2> builder, Func<bool> condition, Func<T1, T2> action) {
     return builder.ElseIf(condition, Handler.FromMethod(action));
   }
 
-  public static Handler<TIn, TOut> Else<TIn, TOut>(this ConditionalHandlersBuilder<TIn, TOut> builder, Func<TIn, TOut> action) {
+  public static Handler<T1, T2> Else<T1, T2>(this ConditionalHandlersBuilder<T1, T2> builder, Func<T1, T2> action) {
     return builder.Else(Handler.FromMethod(action));
   }
 
-  public static AsyncConditionalHandlersBuilder<TIn, TOut> ElseIf<TIn, TOut>(
-    this AsyncConditionalHandlersBuilder<TIn, TOut> builder, Func<bool> condition, Func<TIn, CancellationToken, ValueTask<TOut>> action) {
+  public static AsyncConditionalHandlersBuilder<T1, T2> ElseIf<T1, T2>(
+    this AsyncConditionalHandlersBuilder<T1, T2> builder, Func<bool> condition, Func<T1, CancellationToken, ValueTask<T2>> action) {
     return builder.ElseIf(condition, Handler.FromMethod(action));
   }
 
-  public static AsyncHandler<TIn, TOut> Else<TIn, TOut>(
-    this AsyncConditionalHandlersBuilder<TIn, TOut> builder, Func<TIn, CancellationToken, ValueTask<TOut>> action) {
+  public static AsyncHandler<T1, T2> Else<T1, T2>(
+    this AsyncConditionalHandlersBuilder<T1, T2> builder, Func<T1, CancellationToken, ValueTask<T2>> action) {
     return builder.Else(Handler.FromMethod(action));
   }
 

@@ -1,4 +1,6 @@
 using Interactions.Commands;
+using Interactions.Extensions;
+using Interactions.Transformation.Parsing;
 using Xunit.Abstractions;
 
 namespace Interactions.Tests;
@@ -16,10 +18,10 @@ public class CommandsTests(ITestOutputHelper testOutputHelper) {
     var filterDecorator = new InputIntParseDecorator();
 
     var undoCommand = new Command<string>();
-    undoCommand.Handle(filterDecorator.Decorate(Handler.FromCommandMethod<int>(num => player.data.money -= num)));
+    undoCommand.Handle(filterDecorator.Decorate(Handler.AlwaysTrue<int>(num => player.data.money -= num)));
 
     var command = new ReversibleCommand<string>(undoCommand);
-    command.Handle(filterDecorator.Decorate(Handler.FromCommandMethod<int>(num => player.data.money += num)));
+    command.Handle(filterDecorator.Decorate(Handler.AlwaysTrue<int>(num => player.data.money += num)));
 
     testOutputHelper.WriteLine("Start execute");
 
@@ -42,7 +44,7 @@ public class CommandsTests(ITestOutputHelper testOutputHelper) {
   private class InputIntParseDecorator : Decorator<Handler<int, bool>, Handler<string, bool>> {
 
     public override Handler<string, bool> Decorate(Handler<int, bool> handler) {
-      return handler.InputTransform<string>(int.Parse);
+      return handler.InputParse(Parser.Integer());
     }
 
   }

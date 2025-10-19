@@ -4,59 +4,59 @@ using Interactions.Transformation;
 
 namespace Interactions;
 
-public abstract partial class AsyncHandler<TIn, TOut> {
+public abstract partial class AsyncHandler<T1, T2> {
 
   [Pure]
-  public AsyncHandler<TIn, TOut> Catch<TException>(AsyncCatch<TException, TIn, TOut> @catch) where TException : Exception {
-    return new AsyncCatchHandler<TException, TIn, TOut>(this, @catch);
+  public AsyncHandler<T1, T2> Catch<TException>(AsyncCatch<TException, T1, T2> @catch) where TException : Exception {
+    return new AsyncCatchHandler<TException, T1, T2>(this, @catch);
   }
 
   [Pure]
-  public AsyncHandler<TIn, TOut> Catch<TException>(Catch<TException, TIn, TOut> @catch) where TException : Exception {
-    return new AsyncCatchHandler<TException, TIn, TOut>(this, (exception, input) => new ValueTask<TOut>(@catch(exception, input)));
+  public AsyncHandler<T1, T2> Catch<TException>(Catch<TException, T1, T2> @catch) where TException : Exception {
+    return new AsyncCatchHandler<TException, T1, T2>(this, (exception, input) => new ValueTask<T2>(@catch(exception, input)));
   }
 
   [Pure]
-  public AsyncHandler<TIn, TOut> Finally(AsyncFinally<TIn> @finally) {
-    return new AsyncFinallyHandler<TIn, TOut>(this, @finally);
+  public AsyncHandler<T1, T2> Finally(AsyncFinally<T1> @finally) {
+    return new AsyncFinallyHandler<T1, T2>(this, @finally);
   }
 
   [Pure]
-  public AsyncHandler<TIn, TOut> Finally(Finally<TIn> @finally) {
-    return new AsyncFinallyHandler<TIn, TOut>(this, input => {
+  public AsyncHandler<T1, T2> Finally(Finally<T1> @finally) {
+    return new AsyncFinallyHandler<T1, T2>(this, input => {
       @finally(input);
       return new ValueTask();
     });
   }
 
   [Pure]
-  public AsyncHandler<TTIn, TTOut> Transform<TTIn, TTOut>(Transformer<TTIn, TIn> incoming,
-    Transformer<TOut, TTOut> outgoing) {
-    return new AsyncTransformHandler<TTIn, TIn, TOut, TTOut>(incoming, this, outgoing);
+  public AsyncHandler<K1, K2> Transform<K1, K2>(Transformer<K1, T1> incoming,
+    Transformer<T2, K2> outgoing) {
+    return new AsyncTransformHandler<K1, T1, T2, K2>(incoming, this, outgoing);
   }
 
   [Pure]
-  public AsyncHandler<TTin, TTOut> Transform<TTin, TTOut>(Func<TTin, TIn> incoming, Func<TOut, TTOut> outgoing) {
+  public AsyncHandler<K1, K2> Transform<K1, K2>(Func<K1, T1> incoming, Func<T2, K2> outgoing) {
     return Transform(Transformer.FromMethod(incoming), Transformer.FromMethod(outgoing));
   }
 
   [Pure]
-  public AsyncHandler<TTIn, TOut> InputTransform<TTIn>(Transformer<TTIn, TIn> incoming) {
-    return Transform(incoming, Transformer.Identity<TOut>());
+  public AsyncHandler<K1, T2> InputTransform<K1>(Transformer<K1, T1> incoming) {
+    return Transform(incoming, Transformer.Identity<T2>());
   }
 
   [Pure]
-  public AsyncHandler<TIn, TTOut> OutputTransform<TTOut>(Transformer<TOut, TTOut> outgoing) {
-    return Transform(Transformer.Identity<TIn>(), outgoing);
+  public AsyncHandler<T1, K2> OutputTransform<K2>(Transformer<T2, K2> outgoing) {
+    return Transform(Transformer.Identity<T1>(), outgoing);
   }
 
   [Pure]
-  public AsyncHandler<TTIn, TOut> InputTransform<TTIn>(Func<TTIn, TIn> incoming) {
+  public AsyncHandler<K1, T2> InputTransform<K1>(Func<K1, T1> incoming) {
     return InputTransform(Transformer.FromMethod(incoming));
   }
 
   [Pure]
-  public AsyncHandler<TIn, TTOut> OutputTransform<TTOut>(Func<TOut, TTOut> outgoing) {
+  public AsyncHandler<T1, K2> OutputTransform<K2>(Func<T2, K2> outgoing) {
     return OutputTransform(Transformer.FromMethod(outgoing));
   }
 

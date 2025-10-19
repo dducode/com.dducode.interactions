@@ -7,42 +7,37 @@ namespace Interactions.Extensions;
 public static class AsyncHandlersExtensions {
 
   [Pure]
-  public static AsyncHandler<TIn, TNext> Next<TIn, TCurrent, TNext>(
-    this AsyncHandler<TIn, TCurrent> handler, AsyncHandler<TCurrent, TNext> nextHandler) {
-    return new AsyncChainedHandler<TIn, TCurrent, TNext>(handler, nextHandler);
+  public static AsyncHandler<T1, T3> Next<T1, T2, T3>(this AsyncHandler<T1, T2> handler, AsyncHandler<T2, T3> nextHandler) {
+    return new AsyncChainedHandler<T1, T2, T3>(handler, nextHandler);
   }
 
   [Pure]
-  public static AsyncHandler<TIn, TNext> Next<TIn, TCurrent, TNext>(
-    this AsyncHandler<TIn, TCurrent> handler, Handler<TCurrent, TNext> nextHandler) {
-    return new AsyncChainedHandler<TIn, TCurrent, TNext>(handler, nextHandler.ToAsyncHandler());
+  public static AsyncHandler<T1, T3> Next<T1, T2, T3>(this AsyncHandler<T1, T2> handler, Handler<T2, T3> nextHandler) {
+    return new AsyncChainedHandler<T1, T2, T3>(handler, nextHandler.ToAsyncHandler());
   }
 
   [Pure]
-  public static AsyncHandler<TIn, TNext> Next<TIn, TCurrent, TNext>(
-    this AsyncHandler<TIn, TCurrent> handler, Func<TCurrent, CancellationToken, ValueTask<TNext>> nextHandler) {
+  public static AsyncHandler<T1, T3> Next<T1, T2, T3>(this AsyncHandler<T1, T2> handler, Func<T2, CancellationToken, ValueTask<T3>> nextHandler) {
     return handler.Next(Handler.FromMethod(nextHandler));
   }
 
   [Pure]
-  public static AsyncHandler<TIn, TNext> Next<TIn, TCurrent, TNext>(
-    this AsyncHandler<TIn, TCurrent> handler, Func<TCurrent, TNext> nextHandler) {
+  public static AsyncHandler<T1, T3> Next<T1, T2, T3>(this AsyncHandler<T1, T2> handler, Func<T2, T3> nextHandler) {
     return handler.Next(Handler.FromMethod(nextHandler));
   }
 
   [Pure]
-  public static AsyncHandler<TIn, TOut> Do<TIn, TOut>(this AsyncHandler<TIn, TOut> handler, AsyncSideAction<TOut> action) {
-    return handler.Next(new AsyncTransitiveHandler<TOut>(action));
+  public static AsyncHandler<T1, T2> Do<T1, T2>(this AsyncHandler<T1, T2> handler, AsyncSideAction<T2> action) {
+    return handler.Next(new AsyncTransitiveHandler<T2>(action));
   }
 
   [Pure]
-  public static AsyncHandler<TIn, TOut> Do<TIn, TOut>(this AsyncHandler<TIn, TOut> handler, SideAction<TOut> action) {
-    return handler.Next(new TransitiveHandler<TOut>(action));
+  public static AsyncHandler<T1, T2> Do<T1, T2>(this AsyncHandler<T1, T2> handler, SideAction<T2> action) {
+    return handler.Next(new TransitiveHandler<T2>(action));
   }
 
   [Pure]
-  public static AsyncHandler<TIn, TOut> Filter<TIn, TOut>(
-    this AsyncHandler<TIn, TOut> handler, Transformer<TIn, TIn> incoming, Transformer<TOut, TOut> outgoing) {
+  public static AsyncHandler<T1, T2> Filter<T1, T2>(this AsyncHandler<T1, T2> handler, Transformer<T1, T1> incoming, Transformer<T2, T2> outgoing) {
     return handler.Transform(incoming, outgoing);
   }
 

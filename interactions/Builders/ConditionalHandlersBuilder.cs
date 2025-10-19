@@ -2,54 +2,54 @@ using Interactions.Handlers;
 
 namespace Interactions.Builders;
 
-public class ConditionalHandlersBuilder<TIn, TOut> {
+public class ConditionalHandlersBuilder<T1, T2> {
 
-  private readonly List<(Func<bool> condition, Handler<TIn, TOut> handler)> _nodes = [];
+  private readonly List<(Func<bool> condition, Handler<T1, T2> handler)> _nodes = [];
 
-  private ConditionalHandlersBuilder(Func<bool> condition, Handler<TIn, TOut> handler) {
+  private ConditionalHandlersBuilder(Func<bool> condition, Handler<T1, T2> handler) {
     _nodes.Add((condition, handler));
   }
 
-  internal static ConditionalHandlersBuilder<TIn, TOut> If(Func<bool> condition, Handler<TIn, TOut> handler) {
-    return new ConditionalHandlersBuilder<TIn, TOut>(condition, handler);
+  internal static ConditionalHandlersBuilder<T1, T2> If(Func<bool> condition, Handler<T1, T2> handler) {
+    return new ConditionalHandlersBuilder<T1, T2>(condition, handler);
   }
 
-  public ConditionalHandlersBuilder<TIn, TOut> ElseIf(Func<bool> condition, Handler<TIn, TOut> handler) {
+  public ConditionalHandlersBuilder<T1, T2> ElseIf(Func<bool> condition, Handler<T1, T2> handler) {
     _nodes.Add((condition, handler));
     return this;
   }
 
-  public Handler<TIn, TOut> Else(Handler<TIn, TOut> handler) {
+  public Handler<T1, T2> Else(Handler<T1, T2> handler) {
     return _nodes
       .AsEnumerable()
       .Reverse()
-      .Aggregate(handler, (current, node) => new ConditionalHandler<TIn, TOut>(node.condition, node.handler, current));
+      .Aggregate(handler, (current, node) => new ConditionalHandler<T1, T2>(node.condition, node.handler, current));
   }
 
 }
 
-public class AsyncConditionalHandlersBuilder<TIn, TOut> {
+public class AsyncConditionalHandlersBuilder<T1, T2> {
 
-  private readonly List<(Func<bool> condition, AsyncHandler<TIn, TOut> handler)> _nodes = [];
+  private readonly List<(Func<bool> condition, AsyncHandler<T1, T2> handler)> _nodes = [];
 
-  private AsyncConditionalHandlersBuilder(Func<bool> condition, AsyncHandler<TIn, TOut> handler) {
+  private AsyncConditionalHandlersBuilder(Func<bool> condition, AsyncHandler<T1, T2> handler) {
     _nodes.Add((condition, handler));
   }
 
-  internal static AsyncConditionalHandlersBuilder<TIn, TOut> If(Func<bool> condition, AsyncHandler<TIn, TOut> handler) {
-    return new AsyncConditionalHandlersBuilder<TIn, TOut>(condition, handler);
+  internal static AsyncConditionalHandlersBuilder<T1, T2> If(Func<bool> condition, AsyncHandler<T1, T2> handler) {
+    return new AsyncConditionalHandlersBuilder<T1, T2>(condition, handler);
   }
 
-  public AsyncConditionalHandlersBuilder<TIn, TOut> ElseIf(Func<bool> condition, AsyncHandler<TIn, TOut> handler) {
+  public AsyncConditionalHandlersBuilder<T1, T2> ElseIf(Func<bool> condition, AsyncHandler<T1, T2> handler) {
     _nodes.Add((condition, handler));
     return this;
   }
 
-  public AsyncHandler<TIn, TOut> Else(AsyncHandler<TIn, TOut> handler) {
+  public AsyncHandler<T1, T2> Else(AsyncHandler<T1, T2> handler) {
     return _nodes
       .AsEnumerable()
       .Reverse()
-      .Aggregate(handler, (current, node) => new AsyncConditionalHandler<TIn, TOut>(node.condition, node.handler, current));
+      .Aggregate(handler, (current, node) => new AsyncConditionalHandler<T1, T2>(node.condition, node.handler, current));
   }
 
 }

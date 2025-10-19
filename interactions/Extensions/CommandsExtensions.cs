@@ -14,18 +14,18 @@ public static class CommandsExtensions {
   }
 
   [Pure]
-  public static AsyncCommand<TIn> ToAsyncCommand<TIn>(this Command<TIn> command) {
-    return new AsyncProxyCommand<TIn>(command);
+  public static AsyncCommand<T> ToAsyncCommand<T>(this Command<T> command) {
+    return new AsyncProxyCommand<T>(command);
   }
 
   [Pure]
-  public static Command<TIn> Compose<TIn>(this Command<TIn> command, params Command<TIn>[] commands) {
-    return new CompositeCommand<TIn>(Enumerable.Empty<Command<TIn>>().Append(command).Concat(commands));
+  public static Command<T> Compose<T>(this Command<T> command, params Command<T>[] commands) {
+    return new CompositeCommand<T>(Enumerable.Empty<Command<T>>().Append(command).Concat(commands));
   }
 
   [Pure]
-  public static AsyncCommand<TIn> Compose<TIn>(this AsyncCommand<TIn> command, params AsyncCommand<TIn>[] commands) {
-    return new AsyncCompositeCommand<TIn>(Enumerable.Empty<AsyncCommand<TIn>>().Append(command).Concat(commands));
+  public static AsyncCommand<T> Compose<T>(this AsyncCommand<T> command, params AsyncCommand<T>[] commands) {
+    return new AsyncCompositeCommand<T>(Enumerable.Empty<AsyncCommand<T>>().Append(command).Concat(commands));
   }
 
 }

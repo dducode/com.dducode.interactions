@@ -1,18 +1,18 @@
 namespace Interactions.Commands;
 
-internal sealed class CompositeCommand<TIn> : Command<TIn> {
+internal sealed class CompositeCommand<T> : Command<T> {
 
-  private readonly IEnumerable<Command<TIn>> _commands;
+  private readonly IEnumerable<Command<T>> _commands;
 
-  internal CompositeCommand(IEnumerable<Command<TIn>> commands) {
+  internal CompositeCommand(IEnumerable<Command<T>> commands) {
     _commands = commands;
   }
 
-  public override bool Execute(TIn input) {
+  public override bool Execute(T input) {
     return _commands.Aggregate(true, (current, command) => current & command.Execute(input));
   }
 
-  public override IDisposable Handle(Handler<TIn, bool> handler) {
+  public override IDisposable Handle(Handler<T, bool> handler) {
     throw new InvalidOperationException("Cannot handle composite command");
   }
 

@@ -4,10 +4,6 @@ namespace Interactions.Transformation.Filtering;
 
 public abstract class Filter<T> : Transformer<IEnumerable<T>, IEnumerable<T>> {
 
-  public static Filter<T> operator +(Filter<T> first, Filter<T> second) {
-    return new CombinedFilter<T>(first, second);
-  }
-
   protected override IEnumerable<T> TransformCore(IEnumerable<T> input) {
     return ApplyCore(input);
   }

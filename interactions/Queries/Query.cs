@@ -1,24 +1,24 @@
 namespace Interactions.Queries;
 
-public class Query<TIn, TResponse> : Handleable<TIn, TResponse> {
+public class Query<T1, T2> : Handleable<T1, T2> {
 
   private HandlerNode _handlerNode;
 
-  public virtual TResponse Send(TIn input) {
+  public virtual T2 Send(T1 input) {
     if (_handlerNode == null)
       throw new MissingHandlerException("Cannot handle query");
     return _handlerNode.HandleRequest(input);
   }
 
-  public override IDisposable Handle(Handler<TIn, TResponse> handler) {
+  public override IDisposable Handle(Handler<T1, T2> handler) {
     if (_handlerNode != null)
       throw new InvalidOperationException("Already has handler");
     return _handlerNode = new HandlerNode(this, handler);
   }
 
-  private class HandlerNode(Query<TIn, TResponse> parent, Handler<TIn, TResponse> handler) : IDisposable {
+  private class HandlerNode(Query<T1, T2> parent, Handler<T1, T2> handler) : IDisposable {
 
-    public TResponse HandleRequest(TIn request) {
+    public T2 HandleRequest(T1 request) {
       return handler.Handle(request);
     }
 

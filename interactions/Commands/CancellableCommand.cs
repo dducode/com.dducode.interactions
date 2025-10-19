@@ -1,15 +1,15 @@
 namespace Interactions.Commands;
 
-public class CancellableCommand<TIn>(Command<TIn> undoCommand, int maxStackSize = 256) : Command<TIn> {
+public class CancellableCommand<T>(Command<T> undoCommand, int maxStackSize = 256) : Command<T> {
 
   public int ClearedElements {
     get => _undoStack.ClearedElements;
     set => _undoStack.ClearedElements = value;
   }
 
-  private readonly TrimmedStack<TIn> _undoStack = new(maxStackSize);
+  private readonly TrimmedStack<T> _undoStack = new(maxStackSize);
 
-  public override bool Execute(TIn input) {
+  public override bool Execute(T input) {
     if (base.Execute(input)) {
       _undoStack.Push(input);
       return true;
@@ -22,7 +22,7 @@ public class CancellableCommand<TIn>(Command<TIn> undoCommand, int maxStackSize 
     return UndoCore(out _);
   }
 
-  protected virtual bool UndoCore(out TIn state) {
+  protected virtual bool UndoCore(out T state) {
     if (!_undoStack.TryPop(out state))
       return false;
 

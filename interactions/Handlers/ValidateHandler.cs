@@ -2,22 +2,22 @@ using Interactions.Validation;
 
 namespace Interactions.Handlers;
 
-internal sealed class ValidateHandler<TIn, TOut> : Handler<TIn, TOut> {
+internal sealed class ValidateHandler<T1, T2> : Handler<T1, T2> {
 
-  private readonly Validator<TIn> _inputValidator;
-  private readonly Handler<TIn, TOut> _handler;
-  private readonly Validator<TOut> _outputValidator;
+  private readonly Validator<T1> _inputValidator;
+  private readonly Handler<T1, T2> _handler;
+  private readonly Validator<T2> _outputValidator;
 
-  internal ValidateHandler(Validator<TIn> inputValidator, Handler<TIn, TOut> handler, Validator<TOut> outputValidator) {
+  internal ValidateHandler(Validator<T1> inputValidator, Handler<T1, T2> handler, Validator<T2> outputValidator) {
     _inputValidator = inputValidator;
     _handler = handler;
     _outputValidator = outputValidator;
   }
 
-  protected override TOut HandleCore(TIn input) {
+  protected override T2 HandleCore(T1 input) {
     if (!_inputValidator.IsValid(input))
       throw new InvalidInputException(_inputValidator.ErrorMessage);
-    TOut output = _handler.Handle(input);
+    T2 output = _handler.Handle(input);
 
     if (!_outputValidator.IsValid(output))
       throw new InvalidOutputException(_outputValidator.ErrorMessage);
@@ -26,22 +26,22 @@ internal sealed class ValidateHandler<TIn, TOut> : Handler<TIn, TOut> {
 
 }
 
-internal sealed class AsyncValidateHandler<TIn, TOut> : AsyncHandler<TIn, TOut> {
+internal sealed class AsyncValidateHandler<T1, T2> : AsyncHandler<T1, T2> {
 
-  private readonly Validator<TIn> _inputValidator;
-  private readonly AsyncHandler<TIn, TOut> _handler;
-  private readonly Validator<TOut> _outputValidator;
+  private readonly Validator<T1> _inputValidator;
+  private readonly AsyncHandler<T1, T2> _handler;
+  private readonly Validator<T2> _outputValidator;
 
-  internal AsyncValidateHandler(Validator<TIn> inputValidator, AsyncHandler<TIn, TOut> handler, Validator<TOut> outputValidator) {
+  internal AsyncValidateHandler(Validator<T1> inputValidator, AsyncHandler<T1, T2> handler, Validator<T2> outputValidator) {
     _inputValidator = inputValidator;
     _handler = handler;
     _outputValidator = outputValidator;
   }
 
-  protected override async ValueTask<TOut> HandleCore(TIn input, CancellationToken token = default) {
+  protected override async ValueTask<T2> HandleCore(T1 input, CancellationToken token = default) {
     if (!_inputValidator.IsValid(input))
       throw new InvalidInputException(_inputValidator.ErrorMessage);
-    TOut output = await _handler.Handle(input, token);
+    T2 output = await _handler.Handle(input, token);
 
     if (!_outputValidator.IsValid(output))
       throw new InvalidOutputException(_outputValidator.ErrorMessage);

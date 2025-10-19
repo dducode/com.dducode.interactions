@@ -1,8 +1,11 @@
 namespace Interactions.Transformation;
 
-public class Base64Transformer : SymmetricTransformer<byte[], string> {
+internal sealed class Base64Transformer : SymmetricTransformer<byte[], string> {
 
   internal static Base64Transformer Instance { get; } = new();
+
+  private Base64Transformer() {
+  }
 
   protected override string TransformCore(byte[] input) {
     return Convert.ToBase64String(input);

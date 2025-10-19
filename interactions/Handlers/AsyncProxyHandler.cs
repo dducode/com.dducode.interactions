@@ -1,16 +1,16 @@
 namespace Interactions.Handlers;
 
-internal sealed class AsyncProxyHandler<TIn, TOut> : AsyncHandler<TIn, TOut> {
+internal sealed class AsyncProxyHandler<T1, T2> : AsyncHandler<T1, T2> {
 
-  private readonly Handler<TIn, TOut> _handler;
+  private readonly Handler<T1, T2> _handler;
 
-  internal AsyncProxyHandler(Handler<TIn, TOut> handler) {
+  internal AsyncProxyHandler(Handler<T1, T2> handler) {
     _handler = handler;
   }
 
-  protected override ValueTask<TOut> HandleCore(TIn input, CancellationToken token = default) {
+  protected override ValueTask<T2> HandleCore(T1 input, CancellationToken token = default) {
     token.ThrowIfCancellationRequested();
-    return new ValueTask<TOut>(_handler.Handle(input));
+    return new ValueTask<T2>(_handler.Handle(input));
   }
 
 }

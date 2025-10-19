@@ -3,18 +3,18 @@ using Interactions.Handlers;
 
 namespace Interactions;
 
-public abstract partial class Handler<TIn, TOut> {
+public abstract partial class Handler<T1, T2> {
 
-  public static ConditionalHandlersBuilder<TIn, TOut> If(Func<bool> condition, Handler<TIn, TOut> handler) {
-    return ConditionalHandlersBuilder<TIn, TOut>.If(condition, handler);
+  public static ConditionalHandlersBuilder<T1, T2> If(Func<bool> condition, Handler<T1, T2> handler) {
+    return ConditionalHandlersBuilder<T1, T2>.If(condition, handler);
   }
 
-  public static ConditionalHandlersBuilder<TIn, TOut> If(Func<bool> condition, Func<TIn, TOut> func) {
-    return ConditionalHandlersBuilder<TIn, TOut>.If(condition, Handler.FromMethod(func));
+  public static ConditionalHandlersBuilder<T1, T2> If(Func<bool> condition, Func<T1, T2> func) {
+    return ConditionalHandlersBuilder<T1, T2>.If(condition, Handler.FromMethod(func));
   }
 
-  public static UseHandlersBuilder<TIn, TOut> Use(Use<TIn, TOut> func) {
-    return new UseHandlersBuilder<TIn, TOut>(func);
+  public static UseHandlersBuilder<T1, T2> Use(Use<T1, T2> func) {
+    return new UseHandlersBuilder<T1, T2>(func);
   }
 
 }

@@ -1,14 +1,14 @@
 namespace Interactions.Transformation;
 
-internal sealed class AnonymousTransformer<TIn, TOut> : Transformer<TIn, TOut> {
+internal sealed class AnonymousTransformer<T1, T2> : Transformer<T1, T2> {
 
-  private readonly Func<TIn, TOut> _filter;
+  private readonly Func<T1, T2> _filter;
 
-  internal AnonymousTransformer(Func<TIn, TOut> filter) {
+  internal AnonymousTransformer(Func<T1, T2> filter) {
     _filter = filter;
   }
 
-  protected override TOut TransformCore(TIn input) {
+  protected override T2 TransformCore(T1 input) {
     return _filter(input);
   }
 

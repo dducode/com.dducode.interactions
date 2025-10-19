@@ -25,7 +25,8 @@ public static class FilterExtensions {
     return filter.Combine(new Taker<T>(takeCount));
   }
 
-  private static Filter<T> Combine<T>(this Filter<T> first, Filter<T> second) {
+  [Pure]
+  public static Filter<T> Combine<T>(this Filter<T> first, Filter<T> second) {
     return new CombinedFilter<T>(first, second);
   }
 

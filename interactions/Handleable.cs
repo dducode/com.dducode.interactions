@@ -1,13 +1,13 @@
 namespace Interactions;
 
-public abstract class Handleable<TIn, TOut> {
+public abstract class Handleable<T1, T2> {
 
-  public abstract IDisposable Handle(Handler<TIn, TOut> handler);
+  public abstract IDisposable Handle(Handler<T1, T2> handler);
 
 }
 
-public abstract class AsyncHandleable<TIn, TOut> {
+public abstract class AsyncHandleable<T1, T2> {
 
-  public abstract IDisposable Handle(AsyncHandler<TIn, TOut> handler);
+  public abstract IDisposable Handle(AsyncHandler<T1, T2> handler);
 
 }
