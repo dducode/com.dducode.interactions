@@ -1,6 +1,5 @@
 using System.Diagnostics.Contracts;
 using Interactions.Handlers;
-using Interactions.Transformation;
 
 namespace Interactions.Extensions;
 
@@ -37,8 +36,8 @@ public static class AsyncHandlersExtensions {
   }
 
   [Pure]
-  public static AsyncHandler<T1, T2> Filter<T1, T2>(this AsyncHandler<T1, T2> handler, Transformer<T1, T1> incoming, Transformer<T2, T2> outgoing) {
-    return handler.Transform(incoming, outgoing);
+  public static AsyncHandler<T1, T2> Delay<T1, T2>(this AsyncHandler<T1, T2> handler, TimeSpan timeDelay) {
+    return handler.Next(new DelayHandler<T2>(timeDelay));
   }
 
 }
