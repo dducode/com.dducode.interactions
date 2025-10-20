@@ -2,8 +2,7 @@ using Interactions.Extensions;
 
 namespace Interactions.Commands;
 
-public class AsyncReversibleCommand<T>(AsyncCommand<T> undoCommand, int maxStackSize = 256)
-  : AsyncCancellableCommand<T>(undoCommand, maxStackSize) {
+public class AsyncReversibleCommand<T>(AsyncCommand<T> undoCommand, int maxStackSize = 256) : AsyncCancellableCommand<T>(undoCommand, maxStackSize) {
 
   private readonly Stack<T> _redoStack = new();
 

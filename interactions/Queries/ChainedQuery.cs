@@ -1,17 +1,9 @@
 namespace Interactions.Queries;
 
-internal sealed class ChainedQuery<T1, T2, T3> : Query<T1, T3> {
-
-  private readonly Query<T1, T2> _first;
-  private readonly Query<T2, T3> _second;
-
-  internal ChainedQuery(Query<T1, T2> first, Query<T2, T3> second) {
-    _first = first;
-    _second = second;
-  }
+internal sealed class ChainedQuery<T1, T2, T3>(Query<T1, T2> first, Query<T2, T3> second) : Query<T1, T3> {
 
   public override T3 Send(T1 input) {
-    return _second.Send(_first.Send(input));
+    return second.Send(first.Send(input));
   }
 
   public override IDisposable Handle(Handler<T1, T3> handler) {
@@ -20,18 +12,10 @@ internal sealed class ChainedQuery<T1, T2, T3> : Query<T1, T3> {
 
 }
 
-internal sealed class AsyncChainedQuery<T1, T2, T3> : AsyncQuery<T1, T3> {
-
-  private readonly AsyncQuery<T1, T2> _first;
-  private readonly AsyncQuery<T2, T3> _second;
-
-  internal AsyncChainedQuery(AsyncQuery<T1, T2> first, AsyncQuery<T2, T3> second) {
-    _first = first;
-    _second = second;
-  }
+internal sealed class AsyncChainedQuery<T1, T2, T3>(AsyncQuery<T1, T2> first, AsyncQuery<T2, T3> second) : AsyncQuery<T1, T3> {
 
   public override async ValueTask<T3> Send(T1 input, CancellationToken token = default) {
-    return await _second.Send(await _first.Send(input, token), token);
+    return await second.Send(await first.Send(input, token), token);
   }
 
   public override IDisposable Handle(AsyncHandler<T1, T3> handler) {
@@ -40,17 +24,11 @@ internal sealed class AsyncChainedQuery<T1, T2, T3> : AsyncQuery<T1, T3> {
 
 }
 
-internal sealed class AsyncProxyQuery<T1, T2> : AsyncQuery<T1, T2> {
-
-  private readonly Query<T1, T2> _query;
-
-  internal AsyncProxyQuery(Query<T1, T2> query) {
-    _query = query;
-  }
+internal sealed class AsyncProxyQuery<T1, T2>(Query<T1, T2> inner) : AsyncQuery<T1, T2> {
 
   public override ValueTask<T2> Send(T1 input, CancellationToken token = default) {
     token.ThrowIfCancellationRequested();
-    return new ValueTask<T2>(_query.Send(input));
+    return new ValueTask<T2>(inner.Send(input));
   }
 
   public override IDisposable Handle(AsyncHandler<T1, T2> handler) {

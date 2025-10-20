@@ -16,6 +16,10 @@ public class Query<T1, T2> : Handleable<T1, T2> {
     return _handlerNode = new HandlerNode(this, handler);
   }
 
+  protected virtual void Clear() {
+    _handlerNode = null;
+  }
+
   private class HandlerNode(Query<T1, T2> parent, Handler<T1, T2> handler) : IDisposable {
 
     public T2 HandleRequest(T1 request) {
@@ -24,7 +28,7 @@ public class Query<T1, T2> : Handleable<T1, T2> {
 
     public void Dispose() {
       handler.Dispose();
-      parent._handlerNode = null;
+      parent.Clear();
     }
 
   }

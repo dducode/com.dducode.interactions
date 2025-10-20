@@ -1,4 +1,5 @@
 using System.Diagnostics.Contracts;
+using Interactions.Validation;
 
 namespace Interactions.Transformation.Filtering;
 
@@ -20,8 +21,13 @@ public static class Filter {
   }
 
   [Pure]
+  public static Filter<T> Where<T>(Validator<T> validator) {
+    return new ConditionalFilter<T>(validator);
+  }
+
+  [Pure]
   public static Filter<T> Where<T>(Func<T, bool> predicate) {
-    return new ConditionalFilter<T>(predicate);
+    return Where(Validator.FromMethod(predicate, string.Empty));
   }
 
   [Pure]

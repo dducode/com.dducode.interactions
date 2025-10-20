@@ -1,33 +1,39 @@
 using System.Diagnostics.Contracts;
 using Interactions.Transformation.Filtering;
+using Interactions.Validation;
 
 namespace Interactions.Extensions;
 
 public static class FilterExtensions {
 
   [Pure]
+  public static Filter<T> Where<T>(this Filter<T> filter, Validator<T> validator) {
+    return filter.Compose(new ConditionalFilter<T>(validator));
+  }
+
+  [Pure]
   public static Filter<T> Where<T>(this Filter<T> filter, Func<T, bool> predicate) {
-    return filter.Combine(new ConditionalFilter<T>(predicate));
+    return filter.Where(Validator.FromMethod(predicate, string.Empty));
   }
 
   [Pure]
   public static Filter<T> Distinct<T>(this Filter<T> filter, IEqualityComparer<T> equalityComparer = null) {
-    return filter.Combine(equalityComparer == null ? UniqueFilter<T>.Instance : new UniqueFilter<T>(equalityComparer));
+    return filter.Compose(equalityComparer == null ? UniqueFilter<T>.Instance : new UniqueFilter<T>(equalityComparer));
   }
 
   [Pure]
   public static Filter<T> Skip<T>(this Filter<T> filter, int skipCount) {
-    return filter.Combine(new Skipper<T>(skipCount));
+    return filter.Compose(new Skipper<T>(skipCount));
   }
 
   [Pure]
   public static Filter<T> Take<T>(this Filter<T> filter, int takeCount) {
-    return filter.Combine(new Taker<T>(takeCount));
+    return filter.Compose(new Taker<T>(takeCount));
   }
 
   [Pure]
-  public static Filter<T> Combine<T>(this Filter<T> first, Filter<T> second) {
-    return new CombinedFilter<T>(first, second);
+  public static Filter<T> Compose<T>(this Filter<T> first, Filter<T> second) {
+    return new CompositeFilter<T>(first, second);
   }
 
 }

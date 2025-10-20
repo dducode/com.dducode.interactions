@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-
         <PackageId>com.dducode.interactions</PackageId>
         <Version>1.0.1</Version>
         <Authors>dducode</Authors>
@@ -10,7 +9,7 @@
         <PackageTags>interactions;handlers</PackageTags>
         <RepositoryUrl>https://github.com/dducode/com.dducode.interactions.git</RepositoryUrl>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        
+
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>disable</Nullable>
         <RootNamespace>Interactions</RootNamespace>
@@ -19,7 +18,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.6.3" />
+        <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.6.3"/>
+        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+            <_Parameter1>interactions-tests</_Parameter1>
+        </AssemblyAttribute>
     </ItemGroup>
 
 </Project>

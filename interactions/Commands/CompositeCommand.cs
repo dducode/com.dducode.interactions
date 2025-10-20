@@ -1,15 +1,9 @@
 namespace Interactions.Commands;
 
-internal sealed class CompositeCommand<T> : Command<T> {
-
-  private readonly IEnumerable<Command<T>> _commands;
-
-  internal CompositeCommand(IEnumerable<Command<T>> commands) {
-    _commands = commands;
-  }
+internal sealed class CompositeCommand<T>(IEnumerable<Command<T>> commands) : Command<T> {
 
   public override bool Execute(T input) {
-    return _commands.Aggregate(true, (current, command) => current & command.Execute(input));
+    return commands.Aggregate(true, (current, command) => current & command.Execute(input));
   }
 
   public override IDisposable Handle(Handler<T, bool> handler) {
@@ -18,40 +12,28 @@ internal sealed class CompositeCommand<T> : Command<T> {
 
 }
 
-internal sealed class AsyncCompositeCommand<TIn> : AsyncCommand<TIn> {
+internal sealed class AsyncCompositeCommand<T>(IEnumerable<AsyncCommand<T>> commands) : AsyncCommand<T> {
 
-  private readonly IEnumerable<AsyncCommand<TIn>> _commands;
-
-  internal AsyncCompositeCommand(IEnumerable<AsyncCommand<TIn>> commands) {
-    _commands = commands;
-  }
-
-  public override async ValueTask<bool> Execute(TIn input, CancellationToken token = default) {
+  public override async ValueTask<bool> Execute(T input, CancellationToken token = default) {
     var result = true;
-    foreach (AsyncCommand<TIn> command in _commands)
+    foreach (AsyncCommand<T> command in commands)
       result &= await command.Execute(input, token);
     return result;
   }
 
-  public override IDisposable Handle(AsyncHandler<TIn, bool> handler) {
+  public override IDisposable Handle(AsyncHandler<T, bool> handler) {
     throw new InvalidOperationException("Cannot handle composite command");
   }
 
 }
 
-internal sealed class AsyncProxyCommand<TIn> : AsyncCommand<TIn> {
+internal sealed class AsyncProxyCommand<T>(Command<T> command) : AsyncCommand<T> {
 
-  private readonly Command<TIn> _command;
-
-  internal AsyncProxyCommand(Command<TIn> command) {
-    _command = command;
+  public override ValueTask<bool> Execute(T input, CancellationToken token = default) {
+    return new ValueTask<bool>(!token.IsCancellationRequested && command.Execute(input));
   }
 
-  public override ValueTask<bool> Execute(TIn input, CancellationToken token = default) {
-    return new ValueTask<bool>(!token.IsCancellationRequested && _command.Execute(input));
-  }
-
-  public override IDisposable Handle(AsyncHandler<TIn, bool> handler) {
+  public override IDisposable Handle(AsyncHandler<T, bool> handler) {
     throw new InvalidOperationException("Cannot handle proxy command");
   }
 

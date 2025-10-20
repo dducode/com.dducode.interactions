@@ -10,7 +10,7 @@ public abstract partial class AsyncHandler<T1, T2> {
   }
 
   public static AsyncConditionalHandlersBuilder<T1, T2> If(Func<bool> condition, Func<T1, CancellationToken, ValueTask<T2>> func) {
-    return AsyncConditionalHandlersBuilder<T1, T2>.If(condition, Handler.FromMethod(func));
+    return AsyncConditionalHandlersBuilder<T1, T2>.If(condition, AsyncHandler.FromMethod(func));
   }
 
   public static AsyncUseHandlersBuilder<T1, T2> Use(AsyncUse<T1, T2> func) {

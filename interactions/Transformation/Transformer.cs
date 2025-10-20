@@ -21,12 +21,12 @@ public static class Transformer {
   }
 
   [Pure]
-  public static Transformer<byte[], string> Encode(Encoding encoding = null) {
+  public static SymmetricTransformer<byte[], string> Encode(Encoding encoding = null) {
     return encoding == null ? Encoder.FromUTF8 : new Encoder(encoding);
   }
 
   [Pure]
-  public static Transformer<byte[], string> Base64Transformer() {
+  public static SymmetricTransformer<byte[], string> Base64Transformer() {
     return Transformation.Base64Transformer.Instance;
   }
 
@@ -56,12 +56,22 @@ public static class Transformer {
   }
 
   [Pure]
+  public static SymmetricTransformer<IEnumerable<T>, List<T>> ToList<T>() {
+    return ListTransformer<T>.Instance;
+  }
+
+  [Pure]
+  public static SymmetricTransformer<IEnumerable<T>, T[]> ToArray<T>() {
+    return ArrayTransformer<T>.Instance;
+  }
+
+  [Pure]
   public static Transformer<T1, T2> FromMethod<T1, T2>(Func<T1, T2> transformation) {
     return new AnonymousTransformer<T1, T2>(transformation);
   }
 
   [Pure]
-  public static Transformer<T1, T2> FromMethod<T1, T2>(Func<T1, T2> forward, Func<T2, T1> backward) {
+  public static SymmetricTransformer<T1, T2> FromMethod<T1, T2>(Func<T1, T2> forward, Func<T2, T1> backward) {
     return new AnonymousSymmetricTransformer<T1, T2>(forward, backward);
   }
 

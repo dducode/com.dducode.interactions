@@ -15,12 +15,12 @@ public static class ConditionalHandlersBuilderExtensions {
 
   public static AsyncConditionalHandlersBuilder<T1, T2> ElseIf<T1, T2>(
     this AsyncConditionalHandlersBuilder<T1, T2> builder, Func<bool> condition, Func<T1, CancellationToken, ValueTask<T2>> action) {
-    return builder.ElseIf(condition, Handler.FromMethod(action));
+    return builder.ElseIf(condition, AsyncHandler.FromMethod(action));
   }
 
   public static AsyncHandler<T1, T2> Else<T1, T2>(
     this AsyncConditionalHandlersBuilder<T1, T2> builder, Func<T1, CancellationToken, ValueTask<T2>> action) {
-    return builder.Else(Handler.FromMethod(action));
+    return builder.Else(AsyncHandler.FromMethod(action));
   }
 
 }

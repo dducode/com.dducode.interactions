@@ -1,15 +1,9 @@
 namespace Interactions.Events;
 
-internal sealed class GroupedEvent<T> : Event<T> {
-
-  private readonly IEnumerable<Event<T>> _events;
-
-  internal GroupedEvent(IEnumerable<Event<T>> events) {
-    _events = events;
-  }
+internal sealed class GroupedEvent<T>(IEnumerable<Event<T>> events) : Event<T> {
 
   public override void Publish(T obj) {
-    foreach (Event<T> @event in _events)
+    foreach (Event<T> @event in events)
       @event.Publish(obj);
   }
 

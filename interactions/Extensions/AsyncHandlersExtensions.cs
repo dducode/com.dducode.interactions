@@ -18,7 +18,7 @@ public static class AsyncHandlersExtensions {
 
   [Pure]
   public static AsyncHandler<T1, T3> Next<T1, T2, T3>(this AsyncHandler<T1, T2> handler, Func<T2, CancellationToken, ValueTask<T3>> nextHandler) {
-    return handler.Next(Handler.FromMethod(nextHandler));
+    return handler.Next(AsyncHandler.FromMethod(nextHandler));
   }
 
   [Pure]
