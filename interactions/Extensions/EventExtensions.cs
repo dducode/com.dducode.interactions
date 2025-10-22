@@ -1,13 +1,10 @@
 using System.Diagnostics.Contracts;
+using Interactions.Core.Events;
 using Interactions.Events;
 
 namespace Interactions.Extensions;
 
 public static class EventExtensions {
-
-  public static void Publish(this Event<Unit> @event) {
-    @event.Publish(default);
-  }
 
   [Pure]
   public static Event<T> Group<T>(this Event<T> @event, params Event<T>[] events) {

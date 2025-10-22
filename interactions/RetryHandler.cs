@@ -1,3 +1,5 @@
+using Interactions.Core.Handlers;
+
 namespace Interactions;
 
 internal sealed class RetryHandler<T1, T2, TException>(
@@ -7,7 +9,7 @@ internal sealed class RetryHandler<T1, T2, TException>(
 
   private readonly Func<int, TimeSpan> _backoff = backoff ?? delegate { return TimeSpan.Zero; };
 
-  protected override async ValueTask<T2> HandleCore(T1 input, CancellationToken token = default) {
+  protected internal override async ValueTask<T2> Handle(T1 input, CancellationToken token = default) {
     var attempt = 0;
 
     do {

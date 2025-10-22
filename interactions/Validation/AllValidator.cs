@@ -4,7 +4,7 @@ internal sealed class AllValidator<T>(Validator<T> itemValidator) : Validator<IE
 
   public override string ErrorMessage { get; } = $"All elements must satisfy: {itemValidator.ErrorMessage}";
 
-  protected override bool IsValidCore(IEnumerable<T> value) {
+  protected internal override bool IsValid(IEnumerable<T> value) {
     return value.All(itemValidator.IsValid);
   }
 

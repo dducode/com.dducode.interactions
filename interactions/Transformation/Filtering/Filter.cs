@@ -5,11 +5,11 @@ namespace Interactions.Transformation.Filtering;
 
 public abstract class Filter<T> : Transformer<IEnumerable<T>, IEnumerable<T>> {
 
-  protected override IEnumerable<T> TransformCore(IEnumerable<T> input) {
-    return ApplyCore(input);
+  protected internal override IEnumerable<T> Transform(IEnumerable<T> input) {
+    return Apply(input);
   }
 
-  protected abstract IEnumerable<T> ApplyCore(IEnumerable<T> input);
+  protected abstract IEnumerable<T> Apply(IEnumerable<T> input);
 
 }
 

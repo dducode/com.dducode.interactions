@@ -7,7 +7,7 @@ internal sealed class IdentityTransformer<T> : Transformer<T, T> {
   private IdentityTransformer() {
   }
 
-  protected override T TransformCore(T input) {
+  protected internal override T Transform(T input) {
     return input;
   }
 

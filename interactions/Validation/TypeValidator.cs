@@ -8,7 +8,7 @@ internal sealed class TypeValidator<TExpected> : Validator<object> {
   private TypeValidator() {
   }
 
-  protected override bool IsValidCore(object value) {
+  protected internal override bool IsValid(object value) {
     return value is TExpected;
   }
 

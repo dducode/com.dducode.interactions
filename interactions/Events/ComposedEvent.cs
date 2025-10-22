@@ -1,3 +1,7 @@
+using Interactions.Core;
+using Interactions.Core.Events;
+using Interactions.Core.Handlers;
+
 namespace Interactions.Events;
 
 internal sealed class ComposedEvent<T, T1, T2>(Event<T1> firstEvent, Event<T2> secondEvent) : Event<T> where T : IDeconstructable<T1, T2> {

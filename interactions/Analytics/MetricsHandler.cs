@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using Interactions.Core.Handlers;
 
 namespace Interactions.Analytics;
 
@@ -6,7 +7,7 @@ internal sealed class MetricsHandler<T1, T2>(Handler<T1, T2> inner, IMetrics<T1,
 
   private readonly Stopwatch _sw = new();
 
-  protected override T2 HandleCore(T1 input) {
+  protected internal override T2 Handle(T1 input) {
     _sw.Restart();
     metrics.Call(tag, input);
 

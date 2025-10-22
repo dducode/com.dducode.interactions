@@ -1,5 +1,5 @@
+using Interactions.Core.Queries;
 using Interactions.Extensions;
-using Interactions.Queries;
 using Interactions.Validation;
 using JetBrains.Annotations;
 

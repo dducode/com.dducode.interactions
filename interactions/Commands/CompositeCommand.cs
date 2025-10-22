@@ -1,3 +1,6 @@
+using Interactions.Core.Commands;
+using Interactions.Core.Handlers;
+
 namespace Interactions.Commands;
 
 internal sealed class CompositeCommand<T>(IEnumerable<Command<T>> commands) : Command<T> {
@@ -23,18 +26,6 @@ internal sealed class AsyncCompositeCommand<T>(IEnumerable<AsyncCommand<T>> comm
 
   public override IDisposable Handle(AsyncHandler<T, bool> handler) {
     throw new InvalidOperationException("Cannot handle composite command");
-  }
-
-}
-
-internal sealed class AsyncProxyCommand<T>(Command<T> command) : AsyncCommand<T> {
-
-  public override ValueTask<bool> Execute(T input, CancellationToken token = default) {
-    return new ValueTask<bool>(!token.IsCancellationRequested && command.Execute(input));
-  }
-
-  public override IDisposable Handle(AsyncHandler<T, bool> handler) {
-    throw new InvalidOperationException("Cannot handle proxy command");
   }
 
 }

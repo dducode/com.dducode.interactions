@@ -4,7 +4,7 @@ internal sealed class OrValidator<T>(Validator<T> first, Validator<T> second) : 
 
   public override string ErrorMessage { get; } = $"{first.ErrorMessage} and {second.ErrorMessage}";
 
-  protected override bool IsValidCore(T value) {
+  protected internal override bool IsValid(T value) {
     return first.IsValid(value) || second.IsValid(value);
   }
 

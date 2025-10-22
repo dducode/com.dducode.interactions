@@ -5,7 +5,7 @@ internal sealed class UniqueFilter<T>(IEqualityComparer<T> comparer = null) : Fi
   internal static UniqueFilter<T> Instance { get; } = new();
   private readonly IEqualityComparer<T> _comparer = comparer ?? EqualityComparer<T>.Default;
 
-  protected override IEnumerable<T> ApplyCore(IEnumerable<T> input) {
+  protected override IEnumerable<T> Apply(IEnumerable<T> input) {
     return input.Distinct(_comparer);
   }
 

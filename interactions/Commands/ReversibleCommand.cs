@@ -1,3 +1,4 @@
+using Interactions.Core.Commands;
 using Interactions.Extensions;
 
 namespace Interactions.Commands;

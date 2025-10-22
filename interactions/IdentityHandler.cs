@@ -1,3 +1,5 @@
+using Interactions.Core.Handlers;
+
 namespace Interactions;
 
 internal sealed class IdentityHandler<T> : Handler<T, T> {
@@ -7,7 +9,7 @@ internal sealed class IdentityHandler<T> : Handler<T, T> {
   private IdentityHandler() {
   }
 
-  protected override T HandleCore(T input) {
+  protected internal override T Handle(T input) {
     return input;
   }
 
@@ -20,7 +22,7 @@ internal sealed class AsyncIdentityHandler<T> : AsyncHandler<T, T> {
   private AsyncIdentityHandler() {
   }
 
-  protected override ValueTask<T> HandleCore(T input, CancellationToken token = default) {
+  protected internal override ValueTask<T> Handle(T input, CancellationToken token = default) {
     token.ThrowIfCancellationRequested();
     return new ValueTask<T>(input);
   }

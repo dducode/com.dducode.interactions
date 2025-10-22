@@ -1,3 +1,6 @@
+using Interactions.Core;
+using Interactions.Core.Commands;
+
 namespace Interactions.Commands;
 
 public class AsyncCancellableCommand<T>(AsyncCommand<T> undoCommand, int maxStackSize = 256) : AsyncCommand<T> {
@@ -19,10 +22,10 @@ public class AsyncCancellableCommand<T>(AsyncCommand<T> undoCommand, int maxStac
   }
 
   public async ValueTask<bool> Undo(CancellationToken token = default) {
-    return (await UndoCore(token)).success;
+    return (await UndoCore(token)).Success;
   }
 
-  protected virtual async ValueTask<Undo<T>> UndoCore(CancellationToken token = default) {
+  protected virtual async ValueTask<Result<T>> UndoCore(CancellationToken token = default) {
     if (!_undoStack.TryPop(out T state))
       return default;
 
@@ -31,7 +34,7 @@ public class AsyncCancellableCommand<T>(AsyncCommand<T> undoCommand, int maxStac
       return default;
     }
 
-    return Interactions.Undo.FromResult(state);
+    return state;
   }
 
   protected override void Clear() {

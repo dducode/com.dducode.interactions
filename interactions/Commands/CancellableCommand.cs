@@ -1,3 +1,5 @@
+using Interactions.Core.Commands;
+
 namespace Interactions.Commands;
 
 public class CancellableCommand<T>(Command<T> undoCommand, int maxStackSize = 256) : Command<T> {

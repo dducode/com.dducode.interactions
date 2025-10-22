@@ -4,7 +4,7 @@ internal sealed class AnonymousValidator<T>(Func<T, bool> validation, string err
 
   public override string ErrorMessage { get; } = errorMessage;
 
-  protected override bool IsValidCore(T value) {
+  protected internal override bool IsValid(T value) {
     return validation(value);
   }
 

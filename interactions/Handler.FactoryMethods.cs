@@ -1,28 +1,57 @@
-using Interactions.Builders;
-using Interactions.Handlers;
+using System.Diagnostics.Contracts;
+using Interactions.Core;
+using Interactions.Core.Handlers;
 
 namespace Interactions;
 
-public abstract partial class Handler<T1, T2> {
+public static class Handler {
 
-  public static ConditionalHandlersBuilder<T1, T2> If(Func<bool> condition, Handler<T1, T2> handler) {
-    return ConditionalHandlersBuilder<T1, T2>.If(condition, handler);
+  [Pure]
+  public static Handler<T, T> Identity<T>() {
+    return IdentityHandler<T>.Instance;
   }
 
-  public static ConditionalHandlersBuilder<T1, T2> If(Func<bool> condition, Func<T1, T2> func) {
-    return ConditionalHandlersBuilder<T1, T2>.If(condition, Handler.FromMethod(func));
+  [Pure]
+  public static Handler<T1, T2> FromMethod<T1, T2>(Func<T1, T2> func) {
+    return new AnonymousHandler<T1, T2>(func);
   }
 
-  public static UseHandlersBuilder<T1, T2, T3, T4> Use<T3, T4>(Use<T1, T2, T3, T4> func) {
-    return new UseHandlersBuilder<T1, T2, T3, T4>(func);
+  [Pure]
+  public static Handler<T, T> FromMethod<T>(Func<T, T> func) {
+    return FromMethod<T, T>(func);
   }
 
-  public static UseHandlersBuilder<T1, T2, T, T> Use<T>(Use<T1, T2, T, T> func) {
-    return Use<T, T>(func);
+  [Pure]
+  public static Handler<Unit, T> FromMethod<T>(Func<T> func) {
+    return new AnonymousHandler<Unit, T>(delegate {
+      return func();
+    });
   }
 
-  public static UseHandlersBuilder<T1, T2, T1, T2> Use(Use<T1, T2, T1, T2> func) {
-    return Use<T1, T2>(func);
+  [Pure]
+  public static Handler<T, Unit> FromMethod<T>(Action<T> action) {
+    return new AnonymousHandler<T>(action);
+  }
+
+  [Pure]
+  public static Handler<Unit, Unit> FromMethod(Action action) {
+    return new AnonymousHandler(action);
+  }
+
+  [Pure]
+  public static Handler<T, bool> AlwaysTrue<T>(Action<T> action) {
+    return new AnonymousHandler<T, bool>(input => {
+      action(input);
+      return true;
+    });
+  }
+
+  [Pure]
+  public static Handler<Unit, bool> AlwaysTrue(Action action) {
+    return new AnonymousHandler<Unit, bool>(delegate {
+      action();
+      return true;
+    });
   }
 
 }

@@ -1,7 +1,7 @@
 using AutoFixture;
+using Interactions.Core.Queries;
 using Interactions.Extensions;
 using Interactions.Handlers;
-using Interactions.Queries;
 using JetBrains.Annotations;
 
 namespace Interactions.Tests.Handlers;
@@ -33,7 +33,7 @@ public class ChainedHandlerTest {
     var query = new Query<int, decimal>();
     using IDisposable handle = query.Handle(Handler
       .FromMethod<int, Player>(id => storage.Get(id))
-      .Catch<KeyNotFoundException>(delegate { return fallbackPlayer; })
+      .Catch((KeyNotFoundException _, int _) => fallbackPlayer)
       .Next(player => player.data)
       .Next(data => data.money)
     );

@@ -4,7 +4,7 @@ internal sealed class OverrideMessageValidator<T>(Validator<T> inner, string err
 
   public override string ErrorMessage { get; } = errorMessage;
 
-  protected override bool IsValidCore(T value) {
+  protected internal override bool IsValid(T value) {
     return inner.IsValid(value);
   }
 

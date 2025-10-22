@@ -1,5 +1,5 @@
 using System.Diagnostics.Contracts;
-using Interactions.Handlers;
+using Interactions.Core.Handlers;
 using Interactions.Validation;
 
 namespace Interactions.Extensions;

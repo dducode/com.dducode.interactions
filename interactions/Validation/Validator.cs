@@ -8,11 +8,7 @@ public abstract class Validator<T> {
 
   public abstract string ErrorMessage { get; }
 
-  internal bool IsValid(T value) {
-    return IsValidCore(value);
-  }
-
-  protected abstract bool IsValidCore(T value);
+  protected internal abstract bool IsValid(T value);
 
 }
 

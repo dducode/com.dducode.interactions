@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <PackageId>com.dducode.interactions</PackageId>
-        <Version>1.1.0</Version>
+        <Version>1.2.0</Version>
         <Authors>dducode</Authors>
         <Company>dducode</Company>
         <Product>interactions-package</Product>
@@ -23,6 +23,10 @@
         <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
             <_Parameter1>interactions-tests</_Parameter1>
         </AssemblyAttribute>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\interactions-core\interactions-core.csproj" />
     </ItemGroup>
 
 </Project>

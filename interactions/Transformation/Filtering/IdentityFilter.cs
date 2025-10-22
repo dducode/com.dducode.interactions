@@ -7,7 +7,7 @@ internal sealed class IdentityFilter<T> : Filter<T> {
   private IdentityFilter() {
   }
 
-  protected override IEnumerable<T> ApplyCore(IEnumerable<T> input) {
+  protected override IEnumerable<T> Apply(IEnumerable<T> input) {
     return input;
   }
 

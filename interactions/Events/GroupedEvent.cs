@@ -1,3 +1,7 @@
+using Interactions.Core;
+using Interactions.Core.Events;
+using Interactions.Core.Handlers;
+
 namespace Interactions.Events;
 
 internal sealed class GroupedEvent<T>(IEnumerable<Event<T>> events) : Event<T> {

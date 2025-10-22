@@ -1,3 +1,5 @@
+using Interactions.Core;
+using Interactions.Core.Commands;
 using Interactions.Extensions;
 
 namespace Interactions.Commands;
@@ -27,10 +29,10 @@ public class AsyncReversibleCommand<T>(AsyncCommand<T> undoCommand, int maxStack
     return true;
   }
 
-  protected override async ValueTask<Undo<T>> UndoCore(CancellationToken token = default) {
-    Undo<T> result = await base.UndoCore(token);
-    if (result.success)
-      _redoStack.Push(result.value);
+  protected override async ValueTask<Result<T>> UndoCore(CancellationToken token = default) {
+    Result<T> result = await base.UndoCore(token);
+    if (result.Success)
+      _redoStack.Push(result.Value);
 
     return result;
   }

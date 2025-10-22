@@ -10,7 +10,7 @@ internal sealed class CollectionCountValidator<T>(Validator<int> countValidator)
 
   public override string ErrorMessage { get; } = countValidator.ErrorMessage;
 
-  protected override bool IsValidCore(ICollection<T> value) {
+  protected internal override bool IsValid(ICollection<T> value) {
     return countValidator.IsValid(value.Count);
   }
 

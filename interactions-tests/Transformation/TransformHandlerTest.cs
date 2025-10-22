@@ -1,5 +1,5 @@
+using Interactions.Core.Queries;
 using Interactions.Extensions;
-using Interactions.Queries;
 using Interactions.Transformation;
 using Interactions.Transformation.Filtering;
 using Interactions.Transformation.Parsing;

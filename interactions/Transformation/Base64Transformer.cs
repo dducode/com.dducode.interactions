@@ -7,11 +7,11 @@ internal sealed class Base64Transformer : SymmetricTransformer<byte[], string> {
   private Base64Transformer() {
   }
 
-  protected override string TransformCore(byte[] input) {
+  protected internal override string Transform(byte[] input) {
     return Convert.ToBase64String(input);
   }
 
-  protected override byte[] InverseTransformCore(string input) {
+  protected internal override byte[] InverseTransform(string input) {
     return Convert.FromBase64String(input);
   }
 

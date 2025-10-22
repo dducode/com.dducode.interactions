@@ -8,7 +8,7 @@ internal sealed class NotNullValidator<T> : Validator<T> {
   private NotNullValidator() {
   }
 
-  protected override bool IsValidCore(T value) {
+  protected internal override bool IsValid(T value) {
     return value != null;
   }
 

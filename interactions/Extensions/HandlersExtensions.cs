@@ -1,14 +1,24 @@
 using System.Diagnostics.Contracts;
+using Interactions.Actions;
 using Interactions.Analytics;
+using Interactions.Core.Extensions;
+using Interactions.Core.Handlers;
 using Interactions.Handlers;
+using Interactions.Transformation;
 
 namespace Interactions.Extensions;
 
 public static class HandlersExtensions {
 
   [Pure]
-  public static AsyncHandler<T1, T2> ToAsyncHandler<T1, T2>(this Handler<T1, T2> handler) {
-    return new AsyncProxyHandler<T1, T2>(handler);
+  public static Handler<T1, T2> Catch<TException, T1, T2>(
+    this Handler<T1, T2> handler, Catch<TException, T1, T2> @catch) where TException : Exception {
+    return new CatchHandler<TException, T1, T2>(handler, @catch);
+  }
+
+  [Pure]
+  public static Handler<T1, T2> Finally<T1, T2>(this Handler<T1, T2> handler, Finally<T1> @finally) {
+    return new FinallyHandler<T1, T2>(handler, @finally);
   }
 
   [Pure]
@@ -32,6 +42,36 @@ public static class HandlersExtensions {
   }
 
   [Pure]
+  public static Handler<K1, K2> Transform<T1, T2, K1, K2>(this Handler<T1, T2> handler, Transformer<K1, T1> incoming, Transformer<T2, K2> outgoing) {
+    return new TransformHandler<K1, T1, T2, K2>(incoming, handler, outgoing);
+  }
+
+  [Pure]
+  public static Handler<K1, K2> Transform<T1, T2, K1, K2>(this Handler<T1, T2> handler, Func<K1, T1> incoming, Func<T2, K2> outgoing) {
+    return handler.Transform(Transformer.FromMethod(incoming), Transformer.FromMethod(outgoing));
+  }
+
+  [Pure]
+  public static Handler<K1, T2> InputTransform<T1, T2, K1>(this Handler<T1, T2> handler, Transformer<K1, T1> incoming) {
+    return handler.Transform(incoming, Transformer.Identity<T2>());
+  }
+
+  [Pure]
+  public static Handler<T1, K2> OutputTransform<T1, T2, K2>(this Handler<T1, T2> handler, Transformer<T2, K2> outgoing) {
+    return handler.Transform(Transformer.Identity<T1>(), outgoing);
+  }
+
+  [Pure]
+  public static Handler<K1, T2> InputTransform<T1, T2, K1>(this Handler<T1, T2> handler, Func<K1, T1> incoming) {
+    return handler.InputTransform(Transformer.FromMethod(incoming));
+  }
+
+  [Pure]
+  public static Handler<T1, K2> OutputTransform<T1, T2, K2>(this Handler<T1, T2> handler, Func<T2, K2> outgoing) {
+    return handler.OutputTransform(Transformer.FromMethod(outgoing));
+  }
+
+  [Pure]
   public static Handler<T1, T2> Do<T1, T2>(this Handler<T1, T2> handler, SideAction<T2> action) {
     return handler.Next(new TransitiveHandler<T2>(action));
   }
@@ -48,7 +88,7 @@ public static class HandlersExtensions {
 
   [Pure]
   public static AsyncHandler<T1, T2> Delay<T1, T2>(this Handler<T1, T2> handler, TimeSpan timeDelay) {
-    return handler.Next(new DelayHandler<T2>(delegate { return timeDelay; }));
+    return handler.Delay(delegate { return timeDelay; });
   }
 
   [Pure]

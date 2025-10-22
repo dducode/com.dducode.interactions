@@ -5,11 +5,7 @@ namespace Interactions.Transformation;
 
 public abstract class Transformer<T1, T2> {
 
-  internal T2 Transform(T1 input) {
-    return TransformCore(input);
-  }
-
-  protected abstract T2 TransformCore(T1 input);
+  protected internal abstract T2 Transform(T1 input);
 
 }
 

@@ -7,11 +7,11 @@ internal sealed class ListTransformer<T> : SymmetricTransformer<IEnumerable<T>, 
   private ListTransformer() {
   }
 
-  protected override List<T> TransformCore(IEnumerable<T> input) {
+  protected internal override List<T> Transform(IEnumerable<T> input) {
     return input.ToList();
   }
 
-  protected override IEnumerable<T> InverseTransformCore(List<T> input) {
+  protected internal override IEnumerable<T> InverseTransform(List<T> input) {
     return input.AsEnumerable();
   }
 

@@ -6,7 +6,7 @@ internal sealed class LessThanValidator<T>(T value, IComparer<T> comparer = null
 
   public override string ErrorMessage { get; } = $"Value must be less than {value}";
 
-  protected override bool IsValidCore(T value1) {
+  protected internal override bool IsValid(T value1) {
     return _comparer.Compare(value1, value) < 0;
   }
 
