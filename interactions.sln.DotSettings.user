@@ -8,27 +8,10 @@
 	<s:String x:Key="/Default/Environment/UnitTesting/CreateUnitTestDialog/TestTemplateMapping/=xUnit/@EntryIndexedValue">33ff99d8-b1ad-4ed5-a4fd-376b97c2c841</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=5523ea35_002D3c3f_002D4057_002D984b_002Db569cfad7223/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="ChainedHandlersTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;xUnit::C74EB7E5-15BD-4D77-B33C-3C08A0E29930::net9.0::Interactions.Tests.HandlersTests&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::C74EB7E5-15BD-4D77-B33C-3C08A0E29930::net9.0::Interactions.Tests.CommandsTests.ReversibleCommandTest&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::C74EB7E5-15BD-4D77-B33C-3C08A0E29930::net9.0::Interactions.Tests.ValidatorsTests.RangeTest&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::C74EB7E5-15BD-4D77-B33C-3C08A0E29930::net9.0::Interactions.Tests.Validation.ValidatorTest.NotEmptyStringTest&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::C74EB7E5-15BD-4D77-B33C-3C08A0E29930::net9.0::Interactions.Tests.Validation.ValidatorTest.RangeTest&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::C74EB7E5-15BD-4D77-B33C-3C08A0E29930::net9.0::Interactions.Tests.Validation.ValidatorTest&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::C74EB7E5-15BD-4D77-B33C-3C08A0E29930::net9.0::Interactions.Tests.Transformation.Parsing.ParserTest.IntParseTest&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::C74EB7E5-15BD-4D77-B33C-3C08A0E29930::net9.0::Interactions.Tests.Transformation.Parsing.ParserTest.TimeParseTest&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::C74EB7E5-15BD-4D77-B33C-3C08A0E29930::net9.0::Interactions.Tests.Transformation.Filtering.FilterTest.WhereFilter&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::C74EB7E5-15BD-4D77-B33C-3C08A0E29930::net9.0::Interactions.Tests.Transformation.Parsing.ParserTest&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::C74EB7E5-15BD-4D77-B33C-3C08A0E29930::net9.0::Interactions.Tests.Transformation.Filtering.FilterTest.DistinctFilterTest&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::C74EB7E5-15BD-4D77-B33C-3C08A0E29930::net9.0::Interactions.Tests.Transformation.Filtering.FilterTest.WhereFilterTest&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::C74EB7E5-15BD-4D77-B33C-3C08A0E29930::net9.0::Interactions.Tests.Transformation.Filtering.FilterTest&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::C74EB7E5-15BD-4D77-B33C-3C08A0E29930::net9.0::Interactions.Tests.Transformation.TransformerTest.AggregatorTest&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::C74EB7E5-15BD-4D77-B33C-3C08A0E29930::net9.0::Interactions.Tests.Transformation.TransformerTest.EncodeTest&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::C74EB7E5-15BD-4D77-B33C-3C08A0E29930::net9.0::Interactions.Tests.Transformation.TransformerTest.Base64Test&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::C74EB7E5-15BD-4D77-B33C-3C08A0E29930::net9.0::Interactions.Tests.Commands.AsyncCommandsTest.ExecutionCancelTest&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::C74EB7E5-15BD-4D77-B33C-3C08A0E29930::net9.0::Interactions.Tests.CommandsTest.ReversibleCommandTest&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::C74EB7E5-15BD-4D77-B33C-3C08A0E29930::net9.0::Interactions.Tests.HandlersTest.ConditionalHandlerTest&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::C74EB7E5-15BD-4D77-B33C-3C08A0E29930::net9.0::Interactions.Tests.HandlersTest.ChainedHandlersTest&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::C74EB7E5-15BD-4D77-B33C-3C08A0E29930::net9.0::Interactions.Tests.HandlersTest.ParseHandlerTest&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::C74EB7E5-15BD-4D77-B33C-3C08A0E29930::net9.0::Interactions.Tests.HandlersTest.ValidateHandlerTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::C74EB7E5-15BD-4D77-B33C-3C08A0E29930::net9.0::Interactions.Tests.Handlers.UseHandlerTest.NestedInvocationTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::C74EB7E5-15BD-4D77-B33C-3C08A0E29930::net9.0::Interactions.Tests.Handlers.UseHandlerTest.NestedInvocationWithDifferentTypesTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::C74EB7E5-15BD-4D77-B33C-3C08A0E29930::net9.0::Interactions.Tests.Transformation.ListTransformerTest.FilterListTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::C74EB7E5-15BD-4D77-B33C-3C08A0E29930::net9.0::Interactions.Tests.Transformation.TransformHandlerTest.FilterListTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::C74EB7E5-15BD-4D77-B33C-3C08A0E29930::net9.0::Interactions.Tests.Commands.ReversibleCommandTest.UndoRedoTest&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

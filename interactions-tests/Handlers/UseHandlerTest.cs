@@ -6,7 +6,7 @@ using Xunit.Abstractions;
 
 namespace Interactions.Tests.Handlers;
 
-[TestSubject(typeof(UseHandler<,>))]
+[TestSubject(typeof(UseHandler<,,,>))]
 public class UseHandlerTest(ITestOutputHelper testOutputHelper) {
 
   [Fact]
@@ -46,6 +46,20 @@ public class UseHandlerTest(ITestOutputHelper testOutputHelper) {
     );
 
     query.Send();
+  }
+
+  [Theory]
+  [InlineData("00:05:00", "00:05:05", 5)]
+  [InlineData("00:00:10", "00:00:00", -10)]
+  public void NestedInvocationWithDifferentTypesTest(string input, string expected, int addedSeconds) {
+    var query = new Query<string, string>();
+    using IDisposable handle = query.Handle(Handler<string, string>
+      .Use<TimeSpan>((time, next) => next.Invoke(TimeSpan.Parse(time)).ToString())
+      .Use<double>((timeSpan, next) => TimeSpan.FromSeconds(next.Invoke(timeSpan.TotalSeconds)))
+      .End(seconds => seconds + addedSeconds)
+    );
+
+    Assert.Equal(expected, query.Send(input));
   }
 
 }

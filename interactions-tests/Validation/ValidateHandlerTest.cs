@@ -12,7 +12,7 @@ public class ValidateHandlerTest {
   public void ValidateRequestTest() {
     var query = new Query<string, string>();
     using IDisposable handle = query.Handle(Handler
-      .FromMethod<string, string>(request => $"response: {request}")
+      .FromMethod<string>(request => $"response: {request}")
       .ValidateInput(Validator.NotEmptyString)
     );
 

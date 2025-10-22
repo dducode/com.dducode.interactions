@@ -36,6 +36,10 @@ public class ReversibleCommandTest(ITestOutputHelper testOutputHelper) {
     testOutputHelper.WriteLine("Start redo");
     while (command.Redo())
       DisplayNumbers(nums, builder);
+
+    Assert.True(command.Undo());
+    command.Execute(fixture.Create<int>());
+    Assert.False(command.Redo());
   }
 
   private void DisplayNumbers(List<int> nums, StringBuilder builder) {

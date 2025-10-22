@@ -1,3 +1,4 @@
+using System.Diagnostics.Contracts;
 using Interactions.Handlers;
 
 namespace Interactions;
@@ -21,21 +22,35 @@ public abstract partial class Handler<T1, T2> : IDisposable {
 
 public static class Handler {
 
-  public static Handler<TIn, TOut> FromMethod<TIn, TOut>(Func<TIn, TOut> func) {
-    return new AnonymousHandler<TIn, TOut>(func);
+  [Pure]
+  public static Handler<T, T> Identity<T>() {
+    return IdentityHandler<T>.Instance;
   }
 
-  public static Handler<Unit, TOut> FromMethod<TOut>(Func<TOut> func) {
-    return new AnonymousHandler<Unit, TOut>(_ => func());
+  [Pure]
+  public static Handler<T1, T2> FromMethod<T1, T2>(Func<T1, T2> func) {
+    return new AnonymousHandler<T1, T2>(func);
   }
 
-  public static Handler<TIn, Unit> FromMethod<TIn>(Action<TIn> action) {
-    return new AnonymousHandler<TIn, Unit>(input => {
+  [Pure]
+  public static Handler<T, T> FromMethod<T>(Func<T, T> func) {
+    return FromMethod<T, T>(func);
+  }
+
+  [Pure]
+  public static Handler<Unit, T> FromMethod<T>(Func<T> func) {
+    return new AnonymousHandler<Unit, T>(_ => func());
+  }
+
+  [Pure]
+  public static Handler<T, Unit> FromMethod<T>(Action<T> action) {
+    return new AnonymousHandler<T, Unit>(input => {
       action(input);
       return default;
     });
   }
 
+  [Pure]
   public static Handler<Unit, Unit> FromMethod(Action action) {
     return new AnonymousHandler<Unit, Unit>(_ => {
       action();
@@ -43,13 +58,15 @@ public static class Handler {
     });
   }
 
-  public static Handler<TIn, bool> AlwaysTrue<TIn>(Action<TIn> action) {
-    return new AnonymousHandler<TIn, bool>(input => {
+  [Pure]
+  public static Handler<T, bool> AlwaysTrue<T>(Action<T> action) {
+    return new AnonymousHandler<T, bool>(input => {
       action(input);
       return true;
     });
   }
 
+  [Pure]
   public static Handler<Unit, bool> AlwaysTrue(Action action) {
     return new AnonymousHandler<Unit, bool>(_ => {
       action();
