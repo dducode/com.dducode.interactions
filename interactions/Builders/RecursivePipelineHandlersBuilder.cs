@@ -1,8 +1,8 @@
-using Interactions.Core.Handlers;
+using Interactions.Core;
 
 namespace Interactions.Builders;
 
-internal sealed class ChainedPipelineHandlersBuilder<T1, T2, T3, T4, T5, T6>(
+internal sealed class RecursivePipelineHandlersBuilder<T1, T2, T3, T4, T5, T6>(
   PipelineHandlersBuilder<T1, T2, T3, T4> first,
   PipelineHandlersBuilder<T3, T4, T5, T6> second) : PipelineHandlersBuilder<T1, T2, T5, T6>(null) {
 

@@ -1,5 +1,3 @@
-using Interactions.Core.Handlers;
-
 namespace Interactions.Core;
 
 internal sealed class MergedHandleable<T1, T2>(Handleable<T1, T2> first, Handleable<T1, T2> second) : Handleable<T1, T2> {

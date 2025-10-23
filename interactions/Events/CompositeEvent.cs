@@ -1,10 +1,9 @@
 using Interactions.Core;
 using Interactions.Core.Events;
-using Interactions.Core.Handlers;
 
 namespace Interactions.Events;
 
-internal sealed class ComposedEvent<T, T1, T2>(Event<T1> firstEvent, Event<T2> secondEvent) : Event<T> where T : IDeconstructable<T1, T2> {
+internal sealed class CompositeEvent<T, T1, T2>(Event<T1> firstEvent, Event<T2> secondEvent) : Event<T> where T : IDeconstructable<T1, T2> {
 
   public override void Publish(T obj) {
     (T1 first, T2 second) = obj;
@@ -18,7 +17,7 @@ internal sealed class ComposedEvent<T, T1, T2>(Event<T1> firstEvent, Event<T2> s
 
 }
 
-internal sealed class ComposedEvent<T, T1, T2, T3>(
+internal sealed class CompositeEvent<T, T1, T2, T3>(
   Event<T1> firstEvent,
   Event<T2> secondEvent,
   Event<T3> thirdEvent) : Event<T> where T : IDeconstructable<T1, T2, T3> {
@@ -36,7 +35,7 @@ internal sealed class ComposedEvent<T, T1, T2, T3>(
 
 }
 
-internal sealed class ComposedEvent<T, T1, T2, T3, T4>(
+internal sealed class CompositeEvent<T, T1, T2, T3, T4>(
   Event<T1> firstEvent,
   Event<T2> secondEvent,
   Event<T3> thirdEvent,

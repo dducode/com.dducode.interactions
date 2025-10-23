@@ -22,11 +22,6 @@ public static class AsyncHandler {
   }
 
   [Pure]
-  public static AsyncHandler<Unit, T> FromMethod<T>(Func<CancellationToken, ValueTask<T>> func) {
-    return new AsyncAnonymousHandler<Unit, T>((_, token) => func(token));
-  }
-
-  [Pure]
   public static AsyncHandler<T, Unit> FromMethod<T>(Func<T, CancellationToken, ValueTask> func) {
     return new AsyncAnonymousHandler<T>(func);
   }
@@ -54,7 +49,7 @@ public static class AsyncHandler {
 
   [Pure]
   public static AsyncHandler<Unit, bool> AlwaysTrue(Func<ValueTask> action) {
-    return new AsyncAnonymousHandler<Unit, bool>(async (_, _) => {
+    return new AsyncAnonymousHandler<Unit, bool>(async delegate {
       await action();
       return true;
     });
@@ -62,7 +57,7 @@ public static class AsyncHandler {
 
   [Pure]
   public static AsyncHandler<Unit, bool> AlwaysTrue(Action action) {
-    return new AsyncAnonymousHandler<Unit, bool>((_, _) => {
+    return new AsyncAnonymousHandler<Unit, bool>(delegate {
       action();
       return new ValueTask<bool>(true);
     });

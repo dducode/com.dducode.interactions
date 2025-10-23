@@ -6,8 +6,8 @@ using JetBrains.Annotations;
 
 namespace Interactions.Tests.Handlers;
 
-[TestSubject(typeof(ChainedHandler<,,>))]
-public class ChainedHandlerTest {
+[TestSubject(typeof(CompositeHandler<,,>))]
+public class CompositeHandlerTest {
 
   [Fact]
   public void GetPlayerMoneyFromStorageTest() {

@@ -2,11 +2,11 @@ namespace Interactions.Core;
 
 public struct Unit : IEquatable<Unit> {
 
-  public static bool operator ==(Unit first, Unit second) {
+  public static bool operator ==(Unit left, Unit right) {
     return true;
   }
 
-  public static bool operator !=(Unit first, Unit second) {
+  public static bool operator !=(Unit left, Unit right) {
     return false;
   }
 

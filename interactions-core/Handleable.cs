@@ -1,5 +1,3 @@
-using Interactions.Core.Handlers;
-
 namespace Interactions.Core;
 
 public abstract class Handleable<T1, T2> {

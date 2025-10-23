@@ -2,7 +2,7 @@ using Interactions.Core;
 using Interactions.Core.Extensions;
 using Interactions.Core.Queries;
 using Interactions.Extensions;
-using Interactions.Handlers;
+using Interactions.Handlers.Pipeline;
 using JetBrains.Annotations;
 using Xunit.Abstractions;
 
@@ -20,30 +20,27 @@ public class PipelineHandlerTest(ITestOutputHelper testOutputHelper) {
     var thirdEnd = false;
 
     var query = new Query<Unit, Unit>();
-    using IDisposable handle = query.Handle(Pipeline<Unit, Unit>
-      .Use((input, next) => {
+    using IDisposable handle = query.Handle(Pipeline
+      .Use(next => {
         testOutputHelper.WriteLine("Start first");
         firstStarted = true;
-        next.Invoke(input);
+        next.Invoke();
         Assert.True(secondEnd);
         testOutputHelper.WriteLine("End first");
-        return input;
       })
-      .Use((input, next) => {
+      .Use(next => {
         Assert.True(firstStarted);
         testOutputHelper.WriteLine("Start second");
         secondStarted = true;
-        next.Invoke(input);
+        next.Invoke();
         Assert.True(thirdEnd);
         testOutputHelper.WriteLine("End second");
         secondEnd = true;
-        return input;
       })
-      .End(input => {
+      .End(() => {
         Assert.True(secondStarted);
         testOutputHelper.WriteLine("Finish");
         thirdEnd = true;
-        return input;
       })
     );
 
@@ -56,8 +53,16 @@ public class PipelineHandlerTest(ITestOutputHelper testOutputHelper) {
   public void NestedInvocationWithDifferentTypesTest(string input, string expected, int addedSeconds) {
     var query = new Query<string, string>();
     using IDisposable handle = query.Handle(Pipeline<string, string>
-      .Use<TimeSpan>((time, next) => next.Invoke(TimeSpan.Parse(time)).ToString())
-      .Use<double>((timeSpan, next) => TimeSpan.FromSeconds(next.Invoke(timeSpan.TotalSeconds)))
+      .Use<TimeSpan>((time, next) => {
+        TimeSpan timeSpan = TimeSpan.Parse(time);
+        TimeSpan result = next.Invoke(timeSpan);
+        return result.ToString();
+      })
+      .Use<double>((timeSpan, next) => {
+        double seconds = timeSpan.TotalSeconds;
+        double result = next.Invoke(seconds);
+        return TimeSpan.FromSeconds(result);
+      })
       .End(seconds => seconds + addedSeconds)
     );
 

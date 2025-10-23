@@ -1,5 +1,3 @@
-using Interactions.Core.Handlers;
-
 namespace Interactions.Core.Queries;
 
 public class Query<T1, T2> : Handleable<T1, T2> {

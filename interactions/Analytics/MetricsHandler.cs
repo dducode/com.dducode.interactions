@@ -1,5 +1,5 @@
 using System.Diagnostics;
-using Interactions.Core.Handlers;
+using Interactions.Core;
 
 namespace Interactions.Analytics;
 

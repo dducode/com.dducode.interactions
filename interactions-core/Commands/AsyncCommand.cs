@@ -1,5 +1,3 @@
-using Interactions.Core.Handlers;
-
 namespace Interactions.Core.Commands;
 
 public class AsyncCommand<T> : AsyncHandleable<T, bool> {

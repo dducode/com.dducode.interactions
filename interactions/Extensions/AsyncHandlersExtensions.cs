@@ -1,8 +1,8 @@
 using System.Diagnostics.Contracts;
 using Interactions.Actions;
 using Interactions.Analytics;
+using Interactions.Core;
 using Interactions.Core.Extensions;
-using Interactions.Core.Handlers;
 using Interactions.Handlers;
 using Interactions.Transformation;
 
@@ -37,12 +37,12 @@ public static class AsyncHandlersExtensions {
 
   [Pure]
   public static AsyncHandler<T1, T3> Next<T1, T2, T3>(this AsyncHandler<T1, T2> handler, AsyncHandler<T2, T3> nextHandler) {
-    return new AsyncChainedHandler<T1, T2, T3>(handler, nextHandler);
+    return new AsyncCompositeHandler<T1, T2, T3>(handler, nextHandler);
   }
 
   [Pure]
   public static AsyncHandler<T1, T3> Next<T1, T2, T3>(this AsyncHandler<T1, T2> handler, Handler<T2, T3> nextHandler) {
-    return new AsyncChainedHandler<T1, T2, T3>(handler, nextHandler.ToAsyncHandler());
+    return new AsyncCompositeHandler<T1, T2, T3>(handler, nextHandler.ToAsyncHandler());
   }
 
   [Pure]
@@ -57,8 +57,8 @@ public static class AsyncHandlersExtensions {
 
   [Pure]
   public static AsyncHandler<T1, T2> Retry<T1, T2, TException>(
-    this AsyncHandler<T1, T2> handler, Func<int, TException, bool> shouldRetry, Func<int, TimeSpan> backoff = null) where TException : Exception {
-    return new RetryHandler<T1, T2, TException>(handler, shouldRetry, backoff);
+    this AsyncHandler<T1, T2> handler, Func<int, TException, CancellationToken, ValueTask<bool>> shouldRetry) where TException : Exception {
+    return new RetryHandler<T1, T2, TException>(handler, shouldRetry);
   }
 
   [Pure]

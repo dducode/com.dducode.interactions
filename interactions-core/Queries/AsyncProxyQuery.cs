@@ -1,5 +1,3 @@
-using Interactions.Core.Handlers;
-
 namespace Interactions.Core.Queries;
 
 internal sealed class AsyncProxyQuery<T1, T2>(Query<T1, T2> inner) : AsyncQuery<T1, T2> {

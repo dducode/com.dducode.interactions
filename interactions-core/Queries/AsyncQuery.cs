@@ -1,5 +1,3 @@
-using Interactions.Core.Handlers;
-
 namespace Interactions.Core.Queries;
 
 public class AsyncQuery<T1, T2> : AsyncHandleable<T1, T2> {

@@ -1,5 +1,3 @@
-using Interactions.Core.Handlers;
-
 namespace Interactions.Core.Events;
 
 public class Event<T> : Handleable<T, Unit> {

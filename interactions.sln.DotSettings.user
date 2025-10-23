@@ -13,5 +13,7 @@
     &lt;TestId&gt;xUnit::C74EB7E5-15BD-4D77-B33C-3C08A0E29930::net9.0::Interactions.Tests.Transformation.ListTransformerTest.FilterListTest&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;xUnit::C74EB7E5-15BD-4D77-B33C-3C08A0E29930::net9.0::Interactions.Tests.Transformation.TransformHandlerTest.FilterListTest&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;xUnit::C74EB7E5-15BD-4D77-B33C-3C08A0E29930::net9.0::Interactions.Tests.Commands.ReversibleCommandTest.UndoRedoTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::C74EB7E5-15BD-4D77-B33C-3C08A0E29930::net9.0::Interactions.Tests.Handlers.PipelineHandlerTest.NestedInvocationTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::C74EB7E5-15BD-4D77-B33C-3C08A0E29930::net9.0::Interactions.Tests.Handlers.PipelineHandlerTest.NestedInvocationWithDifferentTypesTest&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

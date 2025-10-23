@@ -1,4 +1,4 @@
-namespace Interactions.Core.Handlers;
+namespace Interactions.Core;
 
 public abstract class Handler<T1, T2> : IDisposable {
 

@@ -10,7 +10,7 @@ public class AsyncCommandTest {
   [Fact]
   public async Task ExecutionCancelTest() {
     var command = new AsyncCommand<Unit>();
-    command.Handle(_ => new ValueTask<bool>(true));
+    command.Handle((_, _) => new ValueTask<bool>(true));
     var cts = new CancellationTokenSource();
 
     Assert.True(await command.Execute(cts.Token));

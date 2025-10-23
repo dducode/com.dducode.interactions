@@ -22,13 +22,6 @@ public static class Handler {
   }
 
   [Pure]
-  public static Handler<Unit, T> FromMethod<T>(Func<T> func) {
-    return new AnonymousHandler<Unit, T>(delegate {
-      return func();
-    });
-  }
-
-  [Pure]
   public static Handler<T, Unit> FromMethod<T>(Action<T> action) {
     return new AnonymousHandler<T>(action);
   }

@@ -1,5 +1,3 @@
-using Interactions.Core.Handlers;
-
 namespace Interactions.Core.Commands;
 
 internal sealed class AsyncProxyCommand<T>(Command<T> command) : AsyncCommand<T> {
