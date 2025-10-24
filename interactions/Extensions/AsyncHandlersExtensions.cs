@@ -1,9 +1,9 @@
 using System.Diagnostics.Contracts;
-using Interactions.Actions;
 using Interactions.Analytics;
 using Interactions.Core;
 using Interactions.Core.Extensions;
 using Interactions.Handlers;
+using Interactions.Pipelines;
 using Interactions.Transformation;
 
 namespace Interactions.Extensions;
@@ -12,24 +12,28 @@ public static class AsyncHandlersExtensions {
 
   [Pure]
   public static AsyncHandler<T1, T2> Catch<TException, T1, T2>(
-    this AsyncHandler<T1, T2> handler, AsyncCatch<TException, T1, T2> @catch) where TException : Exception {
-    return new AsyncCatchHandler<TException, T1, T2>(handler, @catch);
+    this AsyncHandler<T1, T2> handler, AsyncFunc<TException, T1, T2> func) where TException : Exception {
+    return new AsyncCatchHandler<TException, T1, T2>(handler, func);
   }
 
   [Pure]
   public static AsyncHandler<T1, T2> Catch<TException, T1, T2>(
-    this AsyncHandler<T1, T2> handler, Catch<TException, T1, T2> @catch) where TException : Exception {
-    return handler.Catch<TException, T1, T2>((exception, input) => new ValueTask<T2>(@catch(exception, input)));
+    this AsyncHandler<T1, T2> handler, Func<TException, T1, T2> func) where TException : Exception {
+    return handler.Catch<TException, T1, T2>((exception, input, token) => {
+      token.ThrowIfCancellationRequested();
+      return new ValueTask<T2>(func(exception, input));
+    });
   }
 
   [Pure]
-  public static AsyncHandler<T1, T2> Finally<T1, T2>(this AsyncHandler<T1, T2> handler, AsyncFinally<T1> @finally) {
-    return new AsyncFinallyHandler<T1, T2>(handler, @finally);
+  public static AsyncHandler<T1, T2> Finally<T1, T2>(this AsyncHandler<T1, T2> handler, AsyncAction<T1> action) {
+    return new AsyncFinallyHandler<T1, T2>(handler, action);
   }
 
   [Pure]
-  public static AsyncHandler<T1, T2> Finally<T1, T2>(this AsyncHandler<T1, T2> handler, Finally<T1> @finally) {
-    return handler.Finally(input => {
+  public static AsyncHandler<T1, T2> Finally<T1, T2>(this AsyncHandler<T1, T2> handler, Action<T1> @finally) {
+    return handler.Finally((input, token) => {
+      token.ThrowIfCancellationRequested();
       @finally(input);
       return new ValueTask();
     });
@@ -46,7 +50,7 @@ public static class AsyncHandlersExtensions {
   }
 
   [Pure]
-  public static AsyncHandler<T1, T3> Next<T1, T2, T3>(this AsyncHandler<T1, T2> handler, Func<T2, CancellationToken, ValueTask<T3>> nextHandler) {
+  public static AsyncHandler<T1, T3> Next<T1, T2, T3>(this AsyncHandler<T1, T2> handler, AsyncFunc<T2, T3> nextHandler) {
     return handler.Next(AsyncHandler.FromMethod(nextHandler));
   }
 
@@ -93,12 +97,12 @@ public static class AsyncHandlersExtensions {
   }
 
   [Pure]
-  public static AsyncHandler<T1, T2> Do<T1, T2>(this AsyncHandler<T1, T2> handler, AsyncSideAction<T2> action) {
+  public static AsyncHandler<T1, T2> Do<T1, T2>(this AsyncHandler<T1, T2> handler, AsyncAction<T2> action) {
     return handler.Next(new AsyncTransitiveHandler<T2>(action));
   }
 
   [Pure]
-  public static AsyncHandler<T1, T2> Do<T1, T2>(this AsyncHandler<T1, T2> handler, SideAction<T2> action) {
+  public static AsyncHandler<T1, T2> Do<T1, T2>(this AsyncHandler<T1, T2> handler, Action<T2> action) {
     return handler.Next(new TransitiveHandler<T2>(action));
   }
 

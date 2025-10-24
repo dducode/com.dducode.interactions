@@ -1,9 +1,9 @@
 using System.Diagnostics.Contracts;
-using Interactions.Actions;
 using Interactions.Analytics;
 using Interactions.Core;
 using Interactions.Core.Extensions;
 using Interactions.Handlers;
+using Interactions.Pipelines;
 using Interactions.Transformation;
 
 namespace Interactions.Extensions;
@@ -12,12 +12,12 @@ public static class HandlersExtensions {
 
   [Pure]
   public static Handler<T1, T2> Catch<TException, T1, T2>(
-    this Handler<T1, T2> handler, Catch<TException, T1, T2> @catch) where TException : Exception {
+    this Handler<T1, T2> handler, Func<TException, T1, T2> @catch) where TException : Exception {
     return new CatchHandler<TException, T1, T2>(handler, @catch);
   }
 
   [Pure]
-  public static Handler<T1, T2> Finally<T1, T2>(this Handler<T1, T2> handler, Finally<T1> @finally) {
+  public static Handler<T1, T2> Finally<T1, T2>(this Handler<T1, T2> handler, Action<T1> @finally) {
     return new FinallyHandler<T1, T2>(handler, @finally);
   }
 
@@ -37,7 +37,7 @@ public static class HandlersExtensions {
   }
 
   [Pure]
-  public static AsyncHandler<T1, T3> Next<T1, T2, T3>(this Handler<T1, T2> handler, Func<T2, CancellationToken, ValueTask<T3>> nextHandler) {
+  public static AsyncHandler<T1, T3> Next<T1, T2, T3>(this Handler<T1, T2> handler, AsyncFunc<T2, T3> nextHandler) {
     return handler.Next(AsyncHandler.FromMethod(nextHandler));
   }
 
@@ -72,12 +72,12 @@ public static class HandlersExtensions {
   }
 
   [Pure]
-  public static Handler<T1, T2> Do<T1, T2>(this Handler<T1, T2> handler, SideAction<T2> action) {
+  public static Handler<T1, T2> Do<T1, T2>(this Handler<T1, T2> handler, Action<T2> action) {
     return handler.Next(new TransitiveHandler<T2>(action));
   }
 
   [Pure]
-  public static AsyncHandler<T1, T2> Do<T1, T2>(this Handler<T1, T2> handler, AsyncSideAction<T2> action) {
+  public static AsyncHandler<T1, T2> Do<T1, T2>(this Handler<T1, T2> handler, AsyncAction<T2> action) {
     return handler.Next(new AsyncTransitiveHandler<T2>(action));
   }
 

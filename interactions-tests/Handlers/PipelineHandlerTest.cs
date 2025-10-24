@@ -2,7 +2,7 @@ using Interactions.Core;
 using Interactions.Core.Extensions;
 using Interactions.Core.Queries;
 using Interactions.Extensions;
-using Interactions.Handlers.Pipeline;
+using Interactions.Pipelines;
 using JetBrains.Annotations;
 using Xunit.Abstractions;
 
@@ -50,20 +50,28 @@ public class PipelineHandlerTest(ITestOutputHelper testOutputHelper) {
   [Theory]
   [InlineData("00:05:00", "00:05:05", 5)]
   [InlineData("00:00:10", "00:00:00", -10)]
-  public void NestedInvocationWithDifferentTypesTest(string input, string expected, int addedSeconds) {
+  public void PipelineWithDifferentTypesTest(string input, string expected, int addedSeconds) {
     var query = new Query<string, string>();
     using IDisposable handle = query.Handle(Pipeline<string, string>
-      .Use<TimeSpan>((time, next) => {
+      .Use((string time, Func<TimeSpan, TimeSpan> next) => {
         TimeSpan timeSpan = TimeSpan.Parse(time);
         TimeSpan result = next.Invoke(timeSpan);
         return result.ToString();
       })
-      .Use<double>((timeSpan, next) => {
-        double seconds = timeSpan.TotalSeconds;
-        double result = next.Invoke(seconds);
+      .Use((TimeSpan time, Func<double, long> next) => {
+        double seconds = time.TotalSeconds;
+        long result = next.Invoke(seconds);
         return TimeSpan.FromSeconds(result);
       })
-      .End(seconds => seconds + addedSeconds)
+      .Use((double seconds, Action<double> log) => {
+        var result = (long)(seconds + addedSeconds);
+        log(result);
+        return result;
+      })
+      .Use((double seconds, Action<TimeSpan> log) => {
+        log(TimeSpan.FromSeconds(seconds));
+      })
+      .End(result => testOutputHelper.WriteLine($"Result: {result}"))
     );
 
     Assert.Equal(expected, query.Send(input));

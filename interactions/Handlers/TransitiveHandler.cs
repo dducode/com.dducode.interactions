@@ -1,9 +1,8 @@
-using Interactions.Actions;
 using Interactions.Core;
 
 namespace Interactions.Handlers;
 
-internal sealed class TransitiveHandler<T>(SideAction<T> action) : Handler<T, T> {
+internal sealed class TransitiveHandler<T>(Action<T> action) : Handler<T, T> {
 
   protected internal override T Handle(T input) {
     action(input);

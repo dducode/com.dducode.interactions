@@ -4,60 +4,76 @@ namespace Interactions.Core;
 
 public static class Branch<T1, T2> {
 
-  public static ConditionalHandlersBuilder<T1, T2> If(Func<bool> condition, Handler<T1, T2> handler) {
-    return ConditionalHandlersBuilder<T1, T2>.If(condition, handler);
+  public static BranchBuilder<T1, T2> If(Func<bool> condition, Handler<T1, T2> handler) {
+    return BranchBuilder<T1, T2>.If(condition, handler);
   }
 
-  public static ConditionalHandlersBuilder<T1, T2> If(Func<bool> condition, Func<T1, T2> func) {
-    return If(condition, new AnonymousHandler<T1, T2>(func));
+  public static BranchBuilder<T1, T2> If(Func<bool> condition, Func<T1, T2> func) {
+    return If(condition, new AnonymousHandler_Func<T1, T2>(func));
   }
 
-  public static AsyncConditionalHandlersBuilder<T1, T2> If(Func<bool> condition, AsyncHandler<T1, T2> handler) {
-    return AsyncConditionalHandlersBuilder<T1, T2>.If(condition, handler);
+  public static AsyncBranchBuilder<T1, T2> If(Func<bool> condition, AsyncHandler<T1, T2> handler) {
+    return AsyncBranchBuilder<T1, T2>.If(condition, handler);
   }
 
-  public static AsyncConditionalHandlersBuilder<T1, T2> If(Func<bool> condition, Func<T1, CancellationToken, ValueTask<T2>> func) {
-    return If(condition, new AsyncAnonymousHandler<T1, T2>(func));
+  public static AsyncBranchBuilder<T1, T2> If(Func<bool> condition, AsyncFunc<T1, T2> func) {
+    return If(condition, new AsyncAnonymousHandler_Func<T1, T2>(func));
   }
 
 }
 
 public static class Branch<T> {
 
-  public static ConditionalHandlersBuilder<T, Unit> If(Func<bool> condition, Handler<T, Unit> handler) {
-    return ConditionalHandlersBuilder<T, Unit>.If(condition, handler);
+  public static BranchBuilder<T, Unit> If(Func<bool> condition, Handler<T, Unit> handler) {
+    return BranchBuilder<T, Unit>.If(condition, handler);
   }
 
-  public static ConditionalHandlersBuilder<T, Unit> If(Func<bool> condition, Action<T> action) {
-    return If(condition, new AnonymousHandler<T>(action));
+  public static BranchBuilder<T, Unit> If(Func<bool> condition, Action<T> action) {
+    return If(condition, new AnonymousHandler_Action<T>(action));
   }
 
-  public static AsyncConditionalHandlersBuilder<T, Unit> If(Func<bool> condition, AsyncHandler<T, Unit> handler) {
-    return AsyncConditionalHandlersBuilder<T, Unit>.If(condition, handler);
+  public static AsyncBranchBuilder<T, Unit> If(Func<bool> condition, AsyncHandler<T, Unit> handler) {
+    return AsyncBranchBuilder<T, Unit>.If(condition, handler);
   }
 
-  public static AsyncConditionalHandlersBuilder<T, Unit> If(Func<bool> condition, Func<T, CancellationToken, ValueTask> action) {
-    return If(condition, new AsyncAnonymousHandler<T>(action));
+  public static AsyncBranchBuilder<T, Unit> If(Func<bool> condition, AsyncAction<T> action) {
+    return If(condition, new AsyncAnonymousHandler_Action<T>(action));
+  }
+
+  public static BranchBuilder<Unit, T> If(Func<bool> condition, Handler<Unit, T> handler) {
+    return BranchBuilder<Unit, T>.If(condition, handler);
+  }
+
+  public static BranchBuilder<Unit, T> If(Func<bool> condition, Func<T> action) {
+    return If(condition, new AnonymousHandler_Func<T>(action));
+  }
+
+  public static AsyncBranchBuilder<Unit, T> If(Func<bool> condition, AsyncHandler<Unit, T> handler) {
+    return AsyncBranchBuilder<Unit, T>.If(condition, handler);
+  }
+
+  public static AsyncBranchBuilder<Unit, T> If(Func<bool> condition, AsyncFunc<T> action) {
+    return If(condition, new AsyncAnonymousHandler_Func<T>(action));
   }
 
 }
 
 public static class Branch {
 
-  public static ConditionalHandlersBuilder<Unit, Unit> If(Func<bool> condition, Handler<Unit, Unit> handler) {
-    return ConditionalHandlersBuilder<Unit, Unit>.If(condition, handler);
+  public static BranchBuilder<Unit, Unit> If(Func<bool> condition, Handler<Unit, Unit> handler) {
+    return BranchBuilder<Unit, Unit>.If(condition, handler);
   }
 
-  public static ConditionalHandlersBuilder<Unit, Unit> If(Func<bool> condition, Action action) {
-    return If(condition, new AnonymousHandler(action));
+  public static BranchBuilder<Unit, Unit> If(Func<bool> condition, Action action) {
+    return If(condition, new AnonymousHandler_Action(action));
   }
 
-  public static AsyncConditionalHandlersBuilder<Unit, Unit> If(Func<bool> condition, AsyncHandler<Unit, Unit> handler) {
-    return AsyncConditionalHandlersBuilder<Unit, Unit>.If(condition, handler);
+  public static AsyncBranchBuilder<Unit, Unit> If(Func<bool> condition, AsyncHandler<Unit, Unit> handler) {
+    return AsyncBranchBuilder<Unit, Unit>.If(condition, handler);
   }
 
-  public static AsyncConditionalHandlersBuilder<Unit, Unit> If(Func<bool> condition, Func<CancellationToken, ValueTask> action) {
-    return If(condition, new AsyncAnonymousHandler(action));
+  public static AsyncBranchBuilder<Unit, Unit> If(Func<bool> condition, AsyncAction action) {
+    return If(condition, new AsyncAnonymousHandler_Action(action));
   }
 
 }

@@ -16,27 +16,35 @@ public static class HandleableExtensions {
   }
 
   public static IDisposable Handle<T1, T2>(this Handleable<T1, T2> handleable, Func<T1, T2> handler) {
-    return handleable.Handle(new AnonymousHandler<T1, T2>(handler));
+    return handleable.Handle(new AnonymousHandler_Func<T1, T2>(handler));
+  }
+
+  public static IDisposable Handle<T>(this Handleable<Unit, T> handleable, Func<T> handler) {
+    return handleable.Handle(new AnonymousHandler_Func<T>(handler));
   }
 
   public static IDisposable Handle<T>(this Handleable<T, Unit> handleable, Action<T> handler) {
-    return handleable.Handle(new AnonymousHandler<T>(handler));
+    return handleable.Handle(new AnonymousHandler_Action<T>(handler));
   }
 
   public static IDisposable Handle(this Handleable<Unit, Unit> handleable, Action handler) {
-    return handleable.Handle(new AnonymousHandler(handler));
+    return handleable.Handle(new AnonymousHandler_Action(handler));
   }
 
-  public static IDisposable Handle<T1, T2>(this AsyncHandleable<T1, T2> handleable, Func<T1, CancellationToken, ValueTask<T2>> handler) {
-    return handleable.Handle(new AsyncAnonymousHandler<T1, T2>(handler));
+  public static IDisposable Handle<T1, T2>(this AsyncHandleable<T1, T2> handleable, AsyncFunc<T1, T2> handler) {
+    return handleable.Handle(new AsyncAnonymousHandler_Func<T1, T2>(handler));
   }
 
-  public static IDisposable Handle<T>(this AsyncHandleable<T, Unit> handleable, Func<T, CancellationToken, ValueTask> handler) {
-    return handleable.Handle(new AsyncAnonymousHandler<T>(handler));
+  public static IDisposable Handle<T>(this AsyncHandleable<Unit, T> handleable, AsyncFunc<T> handler) {
+    return handleable.Handle(new AsyncAnonymousHandler_Func<T>(handler));
   }
 
-  public static IDisposable Handle(this AsyncHandleable<Unit, Unit> handleable, Func<CancellationToken, ValueTask> handler) {
-    return handleable.Handle(new AsyncAnonymousHandler(handler));
+  public static IDisposable Handle<T>(this AsyncHandleable<T, Unit> handleable, AsyncAction<T> handler) {
+    return handleable.Handle(new AsyncAnonymousHandler_Action<T>(handler));
+  }
+
+  public static IDisposable Handle(this AsyncHandleable<Unit, Unit> handleable, AsyncAction handler) {
+    return handleable.Handle(new AsyncAnonymousHandler_Action(handler));
   }
 
 }

@@ -13,7 +13,7 @@ public static class Handler {
 
   [Pure]
   public static Handler<T1, T2> FromMethod<T1, T2>(Func<T1, T2> func) {
-    return new AnonymousHandler<T1, T2>(func);
+    return new AnonymousHandler_Func<T1, T2>(func);
   }
 
   [Pure]
@@ -22,18 +22,22 @@ public static class Handler {
   }
 
   [Pure]
+  public static Handler<Unit, T> FromMethod<T>(Func<T> action) {
+    return new AnonymousHandler_Func<T>(action);
+  }
+
   public static Handler<T, Unit> FromMethod<T>(Action<T> action) {
-    return new AnonymousHandler<T>(action);
+    return new AnonymousHandler_Action<T>(action);
   }
 
   [Pure]
   public static Handler<Unit, Unit> FromMethod(Action action) {
-    return new AnonymousHandler(action);
+    return new AnonymousHandler_Action(action);
   }
 
   [Pure]
   public static Handler<T, bool> AlwaysTrue<T>(Action<T> action) {
-    return new AnonymousHandler<T, bool>(input => {
+    return new AnonymousHandler_Func<T, bool>(input => {
       action(input);
       return true;
     });
@@ -41,7 +45,7 @@ public static class Handler {
 
   [Pure]
   public static Handler<Unit, bool> AlwaysTrue(Action action) {
-    return new AnonymousHandler<Unit, bool>(delegate {
+    return new AnonymousHandler_Func<bool>(delegate {
       action();
       return true;
     });
