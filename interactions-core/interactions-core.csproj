@@ -10,6 +10,7 @@
         <PackageId>com.dducode.interactions-core</PackageId>
         <RepositoryUrl>https://github.com/dducode/com.dducode.interactions.git</RepositoryUrl>
         <LangVersion>13.0</LangVersion>
+        <Version>1.0.1</Version>
 
     </PropertyGroup>
 
