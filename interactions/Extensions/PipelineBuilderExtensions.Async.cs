@@ -44,17 +44,17 @@ public static partial class PipelineBuilderExtensions {
 
   [Pure]
   public static AsyncHandler<T1, T2> End<T1, T2, T3, T4>(this AsyncPipelineBuilder<T1, T2, T3, T4> builder, AsyncFunc<T3, T4> action) {
-    return builder.End(AsyncHandler.FromMethod(action));
+    return builder.End(Handler.FromMethod(action));
   }
 
   [Pure]
   public static AsyncHandler<T1, T2> End<T1, T2, T3>(this AsyncPipelineBuilder<T1, T2, T3, Unit> builder, AsyncAction<T3> action) {
-    return builder.End(AsyncHandler.FromMethod(action));
+    return builder.End(Handler.FromMethod(action));
   }
 
   [Pure]
   public static AsyncHandler<T1, T2> End<T1, T2>(this AsyncPipelineBuilder<T1, T2, Unit, Unit> builder, AsyncAction action) {
-    return builder.End(AsyncHandler.FromMethod(action));
+    return builder.End(Handler.FromMethod(action));
   }
 
 }

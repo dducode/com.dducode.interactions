@@ -32,20 +32,20 @@ public static class Branch<T> {
     return If(condition, new AnonymousHandler_Action<T>(action));
   }
 
-  public static AsyncBranchBuilder<T, Unit> If(Func<bool> condition, AsyncHandler<T, Unit> handler) {
-    return AsyncBranchBuilder<T, Unit>.If(condition, handler);
-  }
-
-  public static AsyncBranchBuilder<T, Unit> If(Func<bool> condition, AsyncAction<T> action) {
-    return If(condition, new AsyncAnonymousHandler_Action<T>(action));
-  }
-
   public static BranchBuilder<Unit, T> If(Func<bool> condition, Handler<Unit, T> handler) {
     return BranchBuilder<Unit, T>.If(condition, handler);
   }
 
   public static BranchBuilder<Unit, T> If(Func<bool> condition, Func<T> action) {
     return If(condition, new AnonymousHandler_Func<T>(action));
+  }
+
+  public static AsyncBranchBuilder<T, Unit> If(Func<bool> condition, AsyncHandler<T, Unit> handler) {
+    return AsyncBranchBuilder<T, Unit>.If(condition, handler);
+  }
+
+  public static AsyncBranchBuilder<T, Unit> If(Func<bool> condition, AsyncAction<T> action) {
+    return If(condition, new AsyncAnonymousHandler_Action<T>(action));
   }
 
   public static AsyncBranchBuilder<Unit, T> If(Func<bool> condition, AsyncHandler<Unit, T> handler) {
