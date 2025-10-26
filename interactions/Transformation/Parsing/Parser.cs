@@ -30,4 +30,8 @@ public static class Parser {
     return cultureInfo == null ? TimeParser.Instance : new TimeParser(cultureInfo);
   }
 
+  public static Parser<T> Enum<T>() where T : struct {
+    return EnumParser<T>.Instance;
+  }
+
 }

@@ -10,7 +10,7 @@
         <PackageId>com.dducode.interactions-core</PackageId>
         <RepositoryUrl>https://github.com/dducode/com.dducode.interactions.git</RepositoryUrl>
         <LangVersion>13.0</LangVersion>
-        <Version>1.0.2</Version>
+        <Version>1.0.3</Version>
         <PackageReleaseNotes>added factory methods supported Func&lt;T&gt;</PackageReleaseNotes>
 
     </PropertyGroup>
@@ -19,6 +19,9 @@
         <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.6.3"/>
         <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
             <_Parameter1>interactions</_Parameter1>
+        </AssemblyAttribute>
+        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+            <_Parameter1>dducode.Interactions.Unity</_Parameter1>
         </AssemblyAttribute>
         <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
             <_Parameter1>interactions-core-tests</_Parameter1>

@@ -16,11 +16,6 @@ public static class ValidatorExtensions {
   }
 
   [Pure]
-  public static Validator<T> Inverse<T>(this Validator<T> validator) {
-    return new NotValidator<T>(validator);
-  }
-
-  [Pure]
   public static Validator<T> OverrideMessage<T>(this Validator<T> validator, string message) {
     return new OverrideMessageValidator<T>(validator, message);
   }

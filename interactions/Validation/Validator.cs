@@ -27,6 +27,11 @@ public static class Validator {
   }
 
   [Pure]
+  public static Validator<T> Not<T>(Validator<T> other) {
+    return new NotValidator<T>(other);
+  }
+
+  [Pure]
   public static Validator<T> NotNull<T>() where T : class {
     return NotNullValidator<T>.Instance;
   }
@@ -38,7 +43,7 @@ public static class Validator {
 
   [Pure]
   public static Validator<T> NotEqual<T>(T expected, IEqualityComparer<T> comparer = null) {
-    return Equal(expected, comparer).Inverse();
+    return Not(Equal(expected, comparer));
   }
 
   [Pure]
@@ -69,7 +74,7 @@ public static class Validator {
 
   [Pure]
   public static Validator<T> OutRange<T>(T min, T max, bool rightInclusive = false, IComparer<T> c = null, IEqualityComparer<T> ec = null) {
-    return InRangeCore(min, max, rightInclusive, c, ec).Inverse()
+    return Not(InRangeCore(min, max, rightInclusive, c, ec))
       .OverrideMessage($"Value must be outside of range [{min}..{max}{(rightInclusive ? "]" : ")")}");
   }
 
@@ -99,12 +104,12 @@ public static class Validator {
   }
 
   [Pure]
-  public static Validator<string> Regex(string pattern, RegexOptions options = RegexOptions.None) {
+  public static Validator<string> Match(string pattern, RegexOptions options = RegexOptions.None) {
     return new RegexValidator(pattern, options);
   }
 
   [Pure]
-  public static Validator<object> Type<TExpected>() {
+  public static Validator<object> Is<TExpected>() {
     return TypeValidator<TExpected>.Instance;
   }
 
