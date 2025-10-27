@@ -1,6 +1,6 @@
 namespace Interactions.Core;
 
-internal class CombinedDisposable(IDisposable first, IDisposable second) : IDisposable {
+internal sealed class CompositeDisposable(IDisposable first, IDisposable second) : IDisposable {
 
   public void Dispose() {
     first.Dispose();

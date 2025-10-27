@@ -16,11 +16,30 @@ public static class AsyncHandlersExtensions {
   }
 
   [Pure]
+  public static AsyncHandler<T1, Unit> Catch<TException, T1>(
+    this AsyncHandler<T1, Unit> handler, AsyncAction<TException, T1> action) where TException : Exception {
+    return handler.Catch<TException, T1, Unit>(async (exception, i, token) => {
+      await action(exception, i, token);
+      return default;
+    });
+  }
+
+  [Pure]
   public static AsyncHandler<T1, T2> Catch<TException, T1, T2>(
     this AsyncHandler<T1, T2> handler, Func<TException, T1, T2> func) where TException : Exception {
     return handler.Catch<TException, T1, T2>((exception, input, token) => {
       token.ThrowIfCancellationRequested();
       return new ValueTask<T2>(func(exception, input));
+    });
+  }
+
+  [Pure]
+  public static AsyncHandler<T1, Unit> Catch<TException, T1>(
+    this AsyncHandler<T1, Unit> handler, Action<TException, T1> action) where TException : Exception {
+    return handler.Catch<TException, T1, Unit>((exception, input, token) => {
+      token.ThrowIfCancellationRequested();
+      action(exception, input);
+      return new ValueTask<Unit>();
     });
   }
 

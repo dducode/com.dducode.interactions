@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <PackageId>com.dducode.interactions</PackageId>
-        <Version>1.2.4</Version>
+        <Version>1.2.5</Version>
         <Authors>dducode</Authors>
         <Company>dducode</Company>
         <Product>interactions-package</Product>
@@ -15,7 +15,7 @@
         <RootNamespace>Interactions</RootNamespace>
         <TargetFrameworks>net9.0;netstandard2.1;net48</TargetFrameworks>
         <LangVersion>13.0</LangVersion>
-        <PackageReleaseNotes>patch validators, added enum parser</PackageReleaseNotes>
+        <PackageReleaseNotes>added parser factory method</PackageReleaseNotes>
     </PropertyGroup>
 
     <ItemGroup>

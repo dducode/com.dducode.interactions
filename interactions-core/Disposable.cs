@@ -1,9 +1,19 @@
 namespace Interactions.Core;
 
-internal class Disposable {
+public sealed class Disposable : IDisposable {
 
-  internal static IDisposable Combine(IDisposable first, IDisposable second) {
-    return new CombinedDisposable(first, second);
+  private readonly Action _dispose;
+
+  public static Disposable Create(Action dispose) {
+    return new Disposable(dispose);
+  }
+
+  private Disposable(Action dispose) {
+    _dispose = dispose;
+  }
+
+  public void Dispose() {
+    _dispose();
   }
 
 }

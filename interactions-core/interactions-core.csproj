@@ -10,8 +10,8 @@
         <PackageId>com.dducode.interactions-core</PackageId>
         <RepositoryUrl>https://github.com/dducode/com.dducode.interactions.git</RepositoryUrl>
         <LangVersion>13.0</LangVersion>
-        <Version>1.0.3</Version>
-        <PackageReleaseNotes>added factory methods supported Func&lt;T&gt;</PackageReleaseNotes>
+        <Version>1.0.4</Version>
+        <PackageReleaseNotes>added handleable factory methods</PackageReleaseNotes>
 
     </PropertyGroup>
 
