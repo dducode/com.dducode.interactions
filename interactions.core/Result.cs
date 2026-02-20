@@ -1,9 +1,21 @@
+using System.Runtime.ExceptionServices;
+
 namespace Interactions.Core;
 
 public readonly struct Result<T> {
 
   private const string ErrorMessage = "Result is in invalid state. You cannot return Result as default, only from valid value or exception";
-  public T Value => _isSuccess ? _value : throw _exception ?? throw new InvalidOperationException(ErrorMessage);
+
+  public T Value {
+    get {
+      if (_isSuccess)
+        return _value;
+
+      ExceptionDispatchInfo.Capture(_exception ?? throw new InvalidOperationException(ErrorMessage)).Throw();
+      return default;
+    }
+  }
+
   public Exception Exception => _isValid ? _exception : throw new InvalidOperationException(ErrorMessage);
 
   public bool IsSuccess => _isValid && _isSuccess;
