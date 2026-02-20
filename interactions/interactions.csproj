@@ -15,7 +15,7 @@
         <RootNamespace>Interactions</RootNamespace>
         <TargetFrameworks>net9.0;netstandard2.1;net48</TargetFrameworks>
         <LangVersion>13.0</LangVersion>
-        <PackageReleaseNotes>added parser factory method</PackageReleaseNotes>
+        <PackageReleaseNotes>added new commands, transformers</PackageReleaseNotes>
     </PropertyGroup>
 
     <ItemGroup>
@@ -26,7 +26,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\interactions.core\interactions.core.csproj" />
+        <ProjectReference Include="..\interactions.core\interactions.core.csproj"/>
     </ItemGroup>
 
 </Project>

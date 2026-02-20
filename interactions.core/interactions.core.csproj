@@ -11,7 +11,7 @@
         <RepositoryUrl>https://github.com/dducode/com.dducode.interactions.git</RepositoryUrl>
         <LangVersion>13.0</LangVersion>
         <Version>1.1.0</Version>
-        <PackageReleaseNotes>added handleable factory methods</PackageReleaseNotes>
+        <PackageReleaseNotes>changed handler accessibility</PackageReleaseNotes>
 
     </PropertyGroup>
 
