@@ -1,45 +1,92 @@
+using System.Diagnostics;
 using Interactions.Core.Commands;
-using Interactions.Extensions;
 
 namespace Interactions.Commands;
 
-public class ReversibleCommand<T>(Command<T> undoCommand, int maxStackSize = 256) : CancellableCommand<T>(undoCommand, maxStackSize) {
+/// <summary>
+/// Not thread-safe command. Intended for single-threaded (UI) usage.
+/// </summary>
+/// <typeparam name="TInput">Input type</typeparam>
+/// <typeparam name="TChange">Previous state for revert</typeparam>
+public sealed class ReversibleCommand<TInput, TChange> : ICommand<TInput>, IUndoRedo {
 
-  private readonly Stack<T> _redoStack = new();
+  private readonly History<TChange> _history;
+  private readonly int _historyMaxSize;
+  private readonly int _clearedElements;
 
-  public override bool Execute(T input) {
-    if (base.Execute(input)) {
-      _redoStack.Clear();
-      return true;
-    }
+  private HandlerNode _handlerNode;
 
-    return false;
+  public ReversibleCommand(int historyMaxSize = 256, int clearedElements = 64) {
+    _historyMaxSize = historyMaxSize;
+    if (clearedElements < 1 || historyMaxSize < clearedElements)
+      throw new ArgumentOutOfRangeException(nameof(clearedElements));
+
+    _clearedElements = clearedElements;
+    _history = new History<TChange>(historyMaxSize);
   }
 
-  public bool Redo() {
-    if (!_redoStack.TryPop(out T state))
+  public bool Execute(TInput input) {
+    if (_handlerNode == null)
       return false;
 
-    if (!base.Execute(state)) {
-      _redoStack.Push(state);
-      return false;
-    }
-
+    _history.Write(_handlerNode.ExecuteCommand(input));
+    if (_history.Count == _historyMaxSize)
+      _history.Clear(_clearedElements);
     return true;
   }
 
-  protected override bool UndoCore(out T state) {
-    if (base.UndoCore(out state)) {
-      _redoStack.Push(state);
-      return true;
-    }
+  public bool Undo() {
+    if (!_history.Undo(out TChange state))
+      return false;
 
-    return false;
+    Debug.Assert(_handlerNode != null);
+    _handlerNode.Undo(state);
+    return true;
   }
 
-  protected override void Clear() {
-    base.Clear();
-    _redoStack.Clear();
+  public bool Redo() {
+    if (!_history.Redo(out TChange state))
+      return false;
+
+    Debug.Assert(_handlerNode != null);
+    _handlerNode.Redo(state);
+    return true;
+  }
+
+  public void ClearHistory() {
+    _history.Clear();
+  }
+
+  public IDisposable Handle(ReversibleHandler<TInput, TChange> handler) {
+    if (_handlerNode != null)
+      throw new InvalidOperationException("Already has handler");
+    return _handlerNode = new HandlerNode(this, handler);
+  }
+
+  private void Clear() {
+    _handlerNode = null;
+    ClearHistory();
+  }
+
+  private class HandlerNode(ReversibleCommand<TInput, TChange> parent, ReversibleHandler<TInput, TChange> handler) : IDisposable {
+
+    public TChange ExecuteCommand(TInput input) {
+      return handler.Handle(input);
+    }
+
+    public void Undo(TChange state) {
+      handler.Undo(state);
+    }
+
+    public void Redo(TChange state) {
+      handler.Redo(state);
+    }
+
+    public void Dispose() {
+      handler.Dispose();
+      parent.Clear();
+    }
+
   }
 
 }

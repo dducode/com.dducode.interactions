@@ -7,7 +7,7 @@ internal sealed class MetricsHandler<T1, T2>(Handler<T1, T2> inner, IMetrics<T1,
 
   private readonly Stopwatch _sw = new();
 
-  protected internal override T2 Handle(T1 input) {
+  public override T2 Handle(T1 input) {
     _sw.Restart();
     metrics.Call(tag, input);
 

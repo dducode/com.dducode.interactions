@@ -7,7 +7,7 @@ internal sealed class ToStringTransformer<T> : Transformer<T, string> {
   private ToStringTransformer() {
   }
 
-  protected internal override string Transform(T input) {
+  public override string Transform(T input) {
     return input?.ToString() ?? string.Empty;
   }
 

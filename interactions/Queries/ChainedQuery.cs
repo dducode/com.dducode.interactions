@@ -10,7 +10,7 @@ internal sealed class ChainedQuery<T1, T2, T3>(Query<T1, T2> first, Query<T2, T3
   }
 
   public override IDisposable Handle(Handler<T1, T3> handler) {
-    throw new InvalidOperationException("Cannot handle chained request");
+    throw new NotSupportedException("Cannot handle chained request");
   }
 
 }

@@ -7,12 +7,12 @@ internal sealed class ArrayTransformer<T> : SymmetricTransformer<IEnumerable<T>,
   private ArrayTransformer() {
   }
 
-  protected internal override T[] Transform(IEnumerable<T> input) {
+  public override T[] Transform(IEnumerable<T> input) {
     return input.ToArray();
   }
 
-  protected internal override IEnumerable<T> InverseTransform(T[] input) {
-    return input.AsEnumerable();
+  public override IEnumerable<T> InverseTransform(T[] input) {
+    return input;
   }
 
 }

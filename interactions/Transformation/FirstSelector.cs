@@ -5,7 +5,7 @@ internal sealed class FirstSelector<T>(Func<T, bool> predicate = null) : Transfo
   internal static FirstSelector<T> Instance { get; } = new();
   private readonly Func<T, bool> _predicate = predicate ?? (_ => true);
 
-  protected internal override T Transform(IEnumerable<T> input) {
+  public override T Transform(IEnumerable<T> input) {
     return input.First(_predicate);
   }
 

@@ -10,14 +10,14 @@ namespace Interactions.Extensions;
 public static class AsyncHandlersExtensions {
 
   [Pure]
-  public static AsyncHandler<T1, T2> Catch<TException, T1, T2>(
-    this AsyncHandler<T1, T2> handler, AsyncFunc<TException, T1, T2> func) where TException : Exception {
+  public static AsyncHandler<T1, T2> Catch<TException, T1, T2>(this AsyncHandler<T1, T2> handler, AsyncFunc<TException, T1, T2> func)
+    where TException : Exception {
     return new AsyncCatchHandler<TException, T1, T2>(handler, func);
   }
 
   [Pure]
-  public static AsyncHandler<T1, Unit> Catch<TException, T1>(
-    this AsyncHandler<T1, Unit> handler, AsyncAction<TException, T1> action) where TException : Exception {
+  public static AsyncHandler<T1, Unit> Catch<TException, T1>(this AsyncHandler<T1, Unit> handler, AsyncAction<TException, T1> action)
+    where TException : Exception {
     return handler.Catch<TException, T1, Unit>(async (exception, i, token) => {
       await action(exception, i, token);
       return default;
@@ -25,8 +25,8 @@ public static class AsyncHandlersExtensions {
   }
 
   [Pure]
-  public static AsyncHandler<T1, T2> Catch<TException, T1, T2>(
-    this AsyncHandler<T1, T2> handler, Func<TException, T1, T2> func) where TException : Exception {
+  public static AsyncHandler<T1, T2> Catch<TException, T1, T2>(this AsyncHandler<T1, T2> handler, Func<TException, T1, T2> func)
+    where TException : Exception {
     return handler.Catch<TException, T1, T2>((exception, input, token) => {
       token.ThrowIfCancellationRequested();
       return new ValueTask<T2>(func(exception, input));
@@ -34,8 +34,8 @@ public static class AsyncHandlersExtensions {
   }
 
   [Pure]
-  public static AsyncHandler<T1, Unit> Catch<TException, T1>(
-    this AsyncHandler<T1, Unit> handler, Action<TException, T1> action) where TException : Exception {
+  public static AsyncHandler<T1, Unit> Catch<TException, T1>(this AsyncHandler<T1, Unit> handler, Action<TException, T1> action)
+    where TException : Exception {
     return handler.Catch<TException, T1, Unit>((exception, input, token) => {
       token.ThrowIfCancellationRequested();
       action(exception, input);
@@ -79,13 +79,16 @@ public static class AsyncHandlersExtensions {
 
   [Pure]
   public static AsyncHandler<T1, T2> Retry<T1, T2, TException>(
-    this AsyncHandler<T1, T2> handler, Func<int, TException, CancellationToken, ValueTask<bool>> shouldRetry) where TException : Exception {
+    this AsyncHandler<T1, T2> handler,
+    Func<int, TException, CancellationToken, ValueTask<bool>> shouldRetry) where TException : Exception {
     return new RetryHandler<T1, T2, TException>(handler, shouldRetry);
   }
 
   [Pure]
   public static AsyncHandler<K1, K2> Transform<T1, T2, K1, K2>(
-    this AsyncHandler<T1, T2> handler, Transformer<K1, T1> incoming, Transformer<T2, K2> outgoing) {
+    this AsyncHandler<T1, T2> handler,
+    Transformer<K1, T1> incoming,
+    Transformer<T2, K2> outgoing) {
     return new AsyncTransformHandler<K1, T1, T2, K2>(incoming, handler, outgoing);
   }
 
@@ -131,7 +134,9 @@ public static class AsyncHandlersExtensions {
 
   [Pure]
   public static AsyncHandler<T1, T2> Delay<T1, T2>(this AsyncHandler<T1, T2> handler, TimeSpan timeDelay) {
-    return handler.Next(new DelayHandler<T2>(delegate { return timeDelay; }));
+    return handler.Next(new DelayHandler<T2>(delegate {
+      return timeDelay;
+    }));
   }
 
   [Pure]

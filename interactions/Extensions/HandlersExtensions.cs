@@ -10,23 +10,16 @@ namespace Interactions.Extensions;
 public static class HandlersExtensions {
 
   [Pure]
-  public static Handler<T1, T2> Catch<TException, T1, T2>(
-    this Handler<T1, T2> handler, Func<TException, T1, T2> @catch) where TException : Exception {
+  public static Handler<T1, T2> Catch<TException, T1, T2>(this Handler<T1, T2> handler, Func<TException, T1, T2> @catch) where TException : Exception {
     return new CatchHandler<TException, T1, T2>(handler, @catch);
   }
 
   [Pure]
-  public static Handler<T1, T2> Catch<TException, T1, T2>(
-    this Handler<T1, T2> handler, Action<TException, T1> @catch) where TException : Exception {
+  public static Handler<T1, T2> Catch<TException, T1, T2>(this Handler<T1, T2> handler, Action<TException, T1> @catch) where TException : Exception {
     return new CatchHandler<TException, T1, T2>(handler, (exception, arg2) => {
       @catch(exception, arg2);
       return default;
     });
-  }
-
-  [Pure]
-  public static Handler<T1, T2> Finally<T1, T2>(this Handler<T1, T2> handler, Action<T1> @finally) {
-    return new FinallyHandler<T1, T2>(handler, @finally);
   }
 
   [Pure]
@@ -96,7 +89,9 @@ public static class HandlersExtensions {
 
   [Pure]
   public static AsyncHandler<T1, T2> Delay<T1, T2>(this Handler<T1, T2> handler, TimeSpan timeDelay) {
-    return handler.Delay(delegate { return timeDelay; });
+    return handler.Delay(delegate {
+      return timeDelay;
+    });
   }
 
   [Pure]

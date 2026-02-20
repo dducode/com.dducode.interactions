@@ -1,19 +1,17 @@
 using Interactions.Core;
 using Interactions.Core.Commands;
+using Interactions.Extensions;
 
 namespace Interactions.Commands;
 
 internal sealed class AsyncCompositeCommand<T>(IEnumerable<AsyncCommand<T>> commands) : AsyncCommand<T> {
 
   public override async ValueTask<bool> Execute(T input, CancellationToken token = default) {
-    var result = true;
-    foreach (AsyncCommand<T> command in commands)
-      result &= await command.Execute(input, token);
-    return result;
+    return await commands.AggregateAsync(false, async (current, command, t) => current | await command.Execute(input, t), token);
   }
 
-  public override IDisposable Handle(AsyncHandler<T, bool> handler) {
-    throw new InvalidOperationException("Cannot handle composite command");
+  public override IDisposable Handle(AsyncHandler<T, Unit> handler) {
+    throw new NotSupportedException("Cannot handle composite command");
   }
 
 }

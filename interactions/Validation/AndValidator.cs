@@ -1,11 +1,11 @@
 namespace Interactions.Validation;
 
-internal sealed class AndValidator<T>(Validator<T> first, Validator<T> second) : Validator<T> {
+internal sealed class AndValidator<T>(Validator<T> left, Validator<T> right) : Validator<T> {
 
-  public override string ErrorMessage { get; } = $"{first.ErrorMessage} or {second.ErrorMessage}";
+  public override string ErrorMessage { get; } = $"{left.ErrorMessage} or {right.ErrorMessage}";
 
-  protected internal override bool IsValid(T value) {
-    return first.IsValid(value) && second.IsValid(value);
+  public override bool IsValid(T value) {
+    return left.IsValid(value) && right.IsValid(value);
   }
 
 }

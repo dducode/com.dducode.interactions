@@ -13,7 +13,7 @@ internal sealed class RegexValidator : Validator<string> {
 
   public override string ErrorMessage { get; }
 
-  protected internal override bool IsValid(string value) {
+  public override bool IsValid(string value) {
     return _regex.IsMatch(value);
   }
 

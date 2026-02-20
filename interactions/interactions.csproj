@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <PackageId>com.dducode.interactions</PackageId>
-        <Version>1.2.5</Version>
+        <Version>1.3.0</Version>
         <Authors>dducode</Authors>
         <Company>dducode</Company>
         <Product>interactions-package</Product>
@@ -21,15 +21,12 @@
     <ItemGroup>
         <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.6.3"/>
         <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
-            <_Parameter1>interactions-tests</_Parameter1>
-        </AssemblyAttribute>
-        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
-            <_Parameter1>dducode.Interactions.Unity</_Parameter1>
+            <_Parameter1>interactions.tests</_Parameter1>
         </AssemblyAttribute>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\interactions-core\interactions-core.csproj"/>
+        <ProjectReference Include="..\interactions.core\interactions.core.csproj" />
     </ItemGroup>
 
 </Project>

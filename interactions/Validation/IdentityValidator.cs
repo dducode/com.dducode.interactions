@@ -8,7 +8,7 @@ internal sealed class IdentityValidator<T> : Validator<T> {
   private IdentityValidator() {
   }
 
-  protected internal override bool IsValid(T value) {
+  public override bool IsValid(T value) {
     return true;
   }
 

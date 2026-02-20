@@ -4,7 +4,7 @@ internal sealed class StringLengthValidator(Validator<int> lengthValidator) : Va
 
   public override string ErrorMessage { get; } = lengthValidator.ErrorMessage;
 
-  protected internal override bool IsValid(string value) {
+  public override bool IsValid(string value) {
     return lengthValidator.IsValid(value.Length);
   }
 

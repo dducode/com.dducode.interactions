@@ -6,7 +6,7 @@ internal sealed class EqualityValidator<T>(T expected, IEqualityComparer<T> equa
 
   public override string ErrorMessage { get; } = $"Value must be equal to {expected}";
 
-  protected internal override bool IsValid(T value) {
+  public override bool IsValid(T value) {
     return _equalityComparer.Equals(expected, value);
   }
 

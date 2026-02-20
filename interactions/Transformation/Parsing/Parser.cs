@@ -5,7 +5,7 @@ namespace Interactions.Transformation.Parsing;
 
 public abstract class Parser<T> : Transformer<string, T> {
 
-  protected internal override T Transform(string input) {
+  public override T Transform(string input) {
     return Parse(input);
   }
 

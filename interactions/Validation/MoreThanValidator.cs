@@ -6,7 +6,7 @@ internal sealed class MoreThanValidator<T>(T value, IComparer<T> comparer = null
 
   public override string ErrorMessage { get; } = $"Value must be more than {value}";
 
-  protected internal override bool IsValid(T value1) {
+  public override bool IsValid(T value1) {
     return _comparer.Compare(value1, value) > 0;
   }
 

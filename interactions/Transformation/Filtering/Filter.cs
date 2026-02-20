@@ -5,7 +5,7 @@ namespace Interactions.Transformation.Filtering;
 
 public abstract class Filter<T> : Transformer<IEnumerable<T>, IEnumerable<T>> {
 
-  protected internal override IEnumerable<T> Transform(IEnumerable<T> input) {
+  public override IEnumerable<T> Transform(IEnumerable<T> input) {
     return Apply(input);
   }
 

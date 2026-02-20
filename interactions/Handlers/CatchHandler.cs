@@ -6,7 +6,7 @@ internal sealed class CatchHandler<TException, T1, T2>(
   Handler<T1, T2> handler,
   Func<TException, T1, T2> @catch) : Handler<T1, T2> where TException : Exception {
 
-  protected internal override T2 Handle(T1 input) {
+  public override T2 Handle(T1 input) {
     try {
       return handler.Handle(input);
     }

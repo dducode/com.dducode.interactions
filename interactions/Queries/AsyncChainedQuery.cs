@@ -10,7 +10,7 @@ internal sealed class AsyncChainedQuery<T1, T2, T3>(AsyncQuery<T1, T2> first, As
   }
 
   public override IDisposable Handle(AsyncHandler<T1, T3> handler) {
-    throw new InvalidOperationException("Cannot handle chained request");
+    throw new NotSupportedException("Cannot handle chained request");
   }
 
 }

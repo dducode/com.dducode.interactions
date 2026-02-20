@@ -1,11 +1,12 @@
 using System.Diagnostics.Contracts;
 using System.Text;
+using Interactions.Extensions;
 
 namespace Interactions.Transformation;
 
 public abstract class Transformer<T1, T2> {
 
-  protected internal abstract T2 Transform(T1 input);
+  public abstract T2 Transform(T1 input);
 
 }
 
@@ -49,6 +50,26 @@ public static class Transformer {
   [Pure]
   public static Transformer<IEnumerable<T>, T> First<T>(Func<T, bool> predicate = null) {
     return predicate == null ? FirstSelector<T>.Instance : new FirstSelector<T>(predicate);
+  }
+
+  [Pure]
+  public static SymmetricTransformer<string, IEnumerable<string>> SplitConcat(string separator) {
+    return new SplitConcatStringsTransformer(separator.ToCharArray());
+  }
+
+  [Pure]
+  public static SymmetricTransformer<IEnumerable<string>, string> ConcatSplit(string separator) {
+    return new SplitConcatStringsTransformer(separator.ToCharArray()).Inverse();
+  }
+
+  [Pure]
+  public static Transformer<string, IEnumerable<string>> Split(string separator) {
+    return SplitConcat(separator);
+  }
+
+  [Pure]
+  public static Transformer<IEnumerable<string>, string> Concat(string separator) {
+    return ConcatSplit(separator);
   }
 
   [Pure]

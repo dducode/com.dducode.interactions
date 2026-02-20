@@ -6,25 +6,20 @@ internal sealed class AnonymousMetrics<T1, T2>(
   Action<Exception> failure = null,
   Action<TimeSpan> latency = null) : IMetrics<T1, T2> {
 
-  private readonly Action<T1> _call = call ?? delegate { };
-  private readonly Action<T2> _success = success ?? delegate { };
-  private readonly Action<Exception> _failure = failure ?? delegate { };
-  private readonly Action<TimeSpan> _latency = latency ?? delegate { };
-
   public void Call(string tag, T1 input) {
-    _call(input);
+    call?.Invoke(input);
   }
 
   public void Success(string tag, T2 output) {
-    _success(output);
+    success?.Invoke(output);
   }
 
   public void Failure(string tag, Exception exception) {
-    _failure(exception);
+    failure?.Invoke(exception);
   }
 
   public void Latency(string tag, TimeSpan duration) {
-    _latency(duration);
+    latency?.Invoke(duration);
   }
 
 }
