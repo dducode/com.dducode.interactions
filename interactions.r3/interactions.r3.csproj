@@ -7,6 +7,7 @@
         <PackageId>com.dducode.interactions.r3</PackageId>
         <Authors>dducode</Authors>
         <RepositoryUrl>https://github.com/dducode/com.dducode.interactions</RepositoryUrl>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <TargetFrameworks>net9.0;netstandard2.1;net48</TargetFrameworks>
         <LangVersion>13.0</LangVersion>
         <Version>0.1.0</Version>
